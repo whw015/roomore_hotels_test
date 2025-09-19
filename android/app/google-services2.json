@@ -1,0 +1,91 @@
+{
+  "project_info": {
+    "project_number": "236361081790",
+    "firebase_url": "https://roomoretest-default-rtdb.firebaseio.com",
+    "project_id": "roomoretest",
+    "storage_bucket": "roomoretest.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:236361081790:android:e2b7e1e61609fc50614fef",
+        "android_client_info": {
+          "package_name": "com.example.roomore_hotels_test"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "236361081790-a7ddt3grhani91ka7jo4fbq69p2qhc5n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCdhqjHduVVIXOFCA2HS9HYisoSWunDDeQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "236361081790-a7ddt3grhani91ka7jo4fbq69p2qhc5n.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "236361081790-dhdi2uc19c56lpqmgkm09g6atpe5aiou.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.roomoreTest"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:236361081790:android:60b4c4ba0d2f729e614fef",
+        "android_client_info": {
+          "package_name": "com.example.roomore_test"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "236361081790-b2ugdr9pjtdki2am6p54p5rp1jvi78jg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.roomore_test",
+            "certificate_hash": "c81f6a1ca14386592a1e37b1f8fbfc53cc747d74"
+          }
+        },
+        {
+          "client_id": "236361081790-a7ddt3grhani91ka7jo4fbq69p2qhc5n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCdhqjHduVVIXOFCA2HS9HYisoSWunDDeQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "236361081790-a7ddt3grhani91ka7jo4fbq69p2qhc5n.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "236361081790-dhdi2uc19c56lpqmgkm09g6atpe5aiou.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.roomoreTest"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
