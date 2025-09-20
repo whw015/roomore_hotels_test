@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__FILE__) . '/../_bootstrap.php';
+require_once dirname(__FILE__) . '/../bootstrap.php';
 
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;

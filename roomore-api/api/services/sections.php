@@ -1,5 +1,5 @@
 <?php
-require dirname(__FILE__) . '/../_bootstrap.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 $stmt = $pdo->query('SELECT id, code, title_en, title_ar FROM service_sections ORDER BY id ASC');
 $rows = $stmt->fetchAll();

@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../_bootstrap.php';
+require_once __DIR__ . '/../bootstrap.php';
 
 $raw = file_get_contents('php://input');
 $asJson = json_decode($raw, true);

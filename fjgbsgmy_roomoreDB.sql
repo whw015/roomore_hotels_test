@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Sep 19, 2025 at 09:33 PM
+-- Generation Time: Sep 20, 2025 at 10:06 AM
 -- Server version: 8.0.43-34
 -- PHP Version: 8.3.25
 
@@ -617,7 +617,8 @@ ALTER TABLE `orders`
   ADD KEY `user_id` (`user_id`),
   ADD KEY `hotel_id` (`hotel_id`),
   ADD KEY `stay_id` (`stay_id`),
-  ADD KEY `status` (`status`);
+  ADD KEY `status` (`status`),
+  ADD KEY `idx_orders_hotel_created` (`hotel_id`,`created_at`);
 
 --
 -- Indexes for table `order_items`
@@ -656,7 +657,8 @@ ALTER TABLE `refresh_tokens`
 --
 ALTER TABLE `service_items`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `section_id` (`section_id`);
+  ADD KEY `section_id` (`section_id`),
+  ADD KEY `idx_items_hotel_section` (`hotel_id`,`section_id`);
 
 --
 -- Indexes for table `service_sections`

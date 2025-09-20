@@ -1,6 +1,5 @@
 <?php
-require_once __DIR__ . '/../_bootstrap.php';
-$token = null;
+require_once __DIR__ . '/../bootstrap.php';
 if (function_exists('get_bearer_token')) {
   $token = get_bearer_token();
 } elseif (function_exists('bearer_token')) {

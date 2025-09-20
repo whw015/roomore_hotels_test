@@ -1,5 +1,5 @@
 <?php
-require dirname(__FILE__) . '/../_bootstrap.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 $sectionId = isset($_GET['section_id']) ? (int)$_GET['section_id'] : 0;
 $lang = (isset($_GET['lang']) && strtolower($_GET['lang']) === 'ar') ? 'ar' : 'en';
