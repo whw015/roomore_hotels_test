@@ -1,0 +1,69 @@
+[09-Sep-2025 01:28:13 America/Boise] PHP Fatal error:  Uncaught Error: Call to undefined function db() in /home1/fjgbsgmy/public_html/roomore-api/api/public/orders/create.php:106
+Stack trace:
+#0 {main}
+  thrown in /home1/fjgbsgmy/public_html/roomore-api/api/public/orders/create.php on line 106
+[09-Sep-2025 01:28:17 America/Boise] PHP Fatal error:  Uncaught Error: Call to undefined function db() in /home1/fjgbsgmy/public_html/roomore-api/api/public/orders/create.php:106
+Stack trace:
+#0 {main}
+  thrown in /home1/fjgbsgmy/public_html/roomore-api/api/public/orders/create.php on line 106
+[09-Sep-2025 01:29:06 America/Boise] PHP Fatal error:  Uncaught Error: Call to undefined function db() in /home1/fjgbsgmy/public_html/roomore-api/api/public/orders/create.php:106
+Stack trace:
+#0 {main}
+  thrown in /home1/fjgbsgmy/public_html/roomore-api/api/public/orders/create.php on line 106
+[09-Sep-2025 01:29:17 America/Boise] PHP Fatal error:  Uncaught Error: Call to undefined function db() in /home1/fjgbsgmy/public_html/roomore-api/api/public/orders/create.php:106
+Stack trace:
+#0 {main}
+  thrown in /home1/fjgbsgmy/public_html/roomore-api/api/public/orders/create.php on line 106
+[09-Sep-2025 01:59:54 America/Boise] PHP Warning:  Undefined variable $tax_rate in /home1/fjgbsgmy/public_html/roomore-api/api/public/orders/create.php on line 145
+[09-Sep-2025 02:02:26 America/Boise] PHP Warning:  Undefined variable $tax_rate in /home1/fjgbsgmy/public_html/roomore-api/api/public/orders/create.php on line 145
+[09-Sep-2025 02:04:50 America/Boise] PHP Warning:  Undefined variable $tax_rate in /home1/fjgbsgmy/public_html/roomore-api/api/public/orders/create.php on line 145
+[09-Sep-2025 02:07:16 America/Boise] PHP Warning:  Undefined variable $tax_rate in /home1/fjgbsgmy/public_html/roomore-api/api/public/orders/create.php on line 121
+[15-Sep-2025 01:46:37 America/Boise] PHP Fatal error:  Uncaught ArgumentCountError: Too few arguments to function json_response(), 1 passed in /home1/fjgbsgmy/public_html/roomore-api/api/public/orders/my_orders.php on line 43 and exactly 2 expected in /home1/fjgbsgmy/public_html/roomore-api/api/_bootstrap.php:18
+Stack trace:
+#0 /home1/fjgbsgmy/public_html/roomore-api/api/public/orders/my_orders.php(43): json_response(Array)
+#1 {main}
+  thrown in /home1/fjgbsgmy/public_html/roomore-api/api/_bootstrap.php on line 18
+[15-Sep-2025 01:47:26 America/Boise] PHP Fatal error:  Uncaught ArgumentCountError: Too few arguments to function json_response(), 1 passed in /home1/fjgbsgmy/public_html/roomore-api/api/public/orders/my_orders.php on line 43 and exactly 2 expected in /home1/fjgbsgmy/public_html/roomore-api/api/_bootstrap.php:18
+Stack trace:
+#0 /home1/fjgbsgmy/public_html/roomore-api/api/public/orders/my_orders.php(43): json_response(Array)
+#1 {main}
+  thrown in /home1/fjgbsgmy/public_html/roomore-api/api/_bootstrap.php on line 18
+[15-Sep-2025 01:49:08 America/Boise] PHP Warning:  require_once(/home1/fjgbsgmy/public_html/roomore-api/api/public/orders/../_bootstrap.php): Failed to open stream: No such file or directory in /home1/fjgbsgmy/public_html/roomore-api/api/public/orders/my_orders.php on line 5
+[15-Sep-2025 01:49:08 America/Boise] PHP Fatal error:  Uncaught Error: Failed opening required '/home1/fjgbsgmy/public_html/roomore-api/api/public/orders/../_bootstrap.php' (include_path='.:/opt/cpanel/ea-php83/root/usr/share/pear') in /home1/fjgbsgmy/public_html/roomore-api/api/public/orders/my_orders.php:5
+Stack trace:
+#0 {main}
+  thrown in /home1/fjgbsgmy/public_html/roomore-api/api/public/orders/my_orders.php on line 5
+[15-Sep-2025 01:49:17 America/Boise] PHP Fatal error:  Uncaught ArgumentCountError: Too few arguments to function json_response(), 1 passed in /home1/fjgbsgmy/public_html/roomore-api/api/public/orders/my_orders.php on line 43 and exactly 2 expected in /home1/fjgbsgmy/public_html/roomore-api/api/_bootstrap.php:18
+Stack trace:
+#0 /home1/fjgbsgmy/public_html/roomore-api/api/public/orders/my_orders.php(43): json_response(Array)
+#1 {main}
+  thrown in /home1/fjgbsgmy/public_html/roomore-api/api/_bootstrap.php on line 18
+[15-Sep-2025 01:50:41 America/Boise] PHP Fatal error:  Uncaught Error: Call to undefined function db_or_null() in /home1/fjgbsgmy/public_html/roomore-api/api/public/orders/create.php:118
+Stack trace:
+#0 {main}
+  thrown in /home1/fjgbsgmy/public_html/roomore-api/api/public/orders/create.php on line 118
+[15-Sep-2025 01:58:24 America/Boise] PHP Fatal error:  Uncaught ArgumentCountError: Too few arguments to function json_response(), 1 passed in /home1/fjgbsgmy/public_html/roomore-api/api/public/orders/my_orders.php on line 67 and exactly 2 expected in /home1/fjgbsgmy/public_html/roomore-api/api/_bootstrap.php:18
+Stack trace:
+#0 /home1/fjgbsgmy/public_html/roomore-api/api/public/orders/my_orders.php(67): json_response(Array)
+#1 {main}
+  thrown in /home1/fjgbsgmy/public_html/roomore-api/api/_bootstrap.php on line 18
+[15-Sep-2025 01:59:16 America/Boise] PHP Fatal error:  Uncaught Error: Call to undefined function db_or_null() in /home1/fjgbsgmy/public_html/roomore-api/api/public/orders/create.php:132
+Stack trace:
+#0 {main}
+  thrown in /home1/fjgbsgmy/public_html/roomore-api/api/public/orders/create.php on line 132
+[15-Sep-2025 02:00:02 America/Boise] PHP Fatal error:  Uncaught Error: Call to undefined function db_or_null() in /home1/fjgbsgmy/public_html/roomore-api/api/public/orders/create.php:132
+Stack trace:
+#0 {main}
+  thrown in /home1/fjgbsgmy/public_html/roomore-api/api/public/orders/create.php on line 132
+[15-Sep-2025 02:14:04 America/Boise] PHP Fatal error:  Uncaught TypeError: http_response_code(): Argument #1 ($response_code) must be of type int, array given in /home1/fjgbsgmy/public_html/roomore-api/api/_bootstrap.php:19
+Stack trace:
+#0 /home1/fjgbsgmy/public_html/roomore-api/api/_bootstrap.php(19): http_response_code(Array)
+#1 /home1/fjgbsgmy/public_html/roomore-api/api/public/orders/create.php(136): json_response(Array, 500)
+#2 {main}
+  thrown in /home1/fjgbsgmy/public_html/roomore-api/api/_bootstrap.php on line 19
+[15-Sep-2025 02:14:08 America/Boise] PHP Fatal error:  Uncaught TypeError: http_response_code(): Argument #1 ($response_code) must be of type int, array given in /home1/fjgbsgmy/public_html/roomore-api/api/_bootstrap.php:19
+Stack trace:
+#0 /home1/fjgbsgmy/public_html/roomore-api/api/_bootstrap.php(19): http_response_code(Array)
+#1 /home1/fjgbsgmy/public_html/roomore-api/api/public/orders/my_orders.php(68): json_response(Array, 500)
+#2 {main}
+  thrown in /home1/fjgbsgmy/public_html/roomore-api/api/_bootstrap.php on line 19
