@@ -3,9 +3,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../cubits/app_flow/app_flow_cubit.dart';
-import '../../cubits/app_flow/app_flow_state.dart';
 import '../../theme/app_colors.dart';
+import '../cubits/app_flow/app_flow_cubit.dart';
+import '../cubits/app_flow/app_flow_state.dart';
 import 'home_screen.dart';
 import 'language_selection_screen.dart';
 import 'login_register_screen.dart';
@@ -40,8 +40,7 @@ class _SplashScreenState extends State<SplashScreen> {
       if (!mounted) return;
       final cubit = context.read<AppFlowCubit>();
       final currentState = cubit.state;
-      if (!currentState.isLoading &&
-          currentState.status != AppFlowStatus.initial) {
+      if (!currentState.isLoading && currentState.status != AppFlowStatus.initial) {
         _navigateToStatus(currentState.status);
       } else {
         _subscription = cubit.stream.listen((state) {
@@ -78,28 +77,16 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       backgroundColor: AppColors.orange,
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const Text(
-              'RooMore',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 35,
-                fontWeight: FontWeight.w900,
-              ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 32.0),
+          child: const Text(
+            'RooMore',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 35,
+              fontWeight: FontWeight.w900,
             ),
-            SizedBox(height: 10),
-            const Text(
-              'Hotels Management',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 20,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );

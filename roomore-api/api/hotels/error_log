@@ -1,5 +1,0 @@
-[20-Sep-2025 09:48:29 America/Boise] PHP Warning:  require_once(/home1/fjgbsgmy/public_html/roomore-api/api/hotels/../bootstrap.php): Failed to open stream: No such file or directory in /home1/fjgbsgmy/public_html/roomore-api/api/hotels/verify_code.php on line 2
-[20-Sep-2025 09:48:29 America/Boise] PHP Fatal error:  Uncaught Error: Failed opening required '/home1/fjgbsgmy/public_html/roomore-api/api/hotels/../bootstrap.php' (include_path='.:/opt/cpanel/ea-php83/root/usr/share/pear') in /home1/fjgbsgmy/public_html/roomore-api/api/hotels/verify_code.php:2
-Stack trace:
-#0 {main}
-  thrown in /home1/fjgbsgmy/public_html/roomore-api/api/hotels/verify_code.php on line 2

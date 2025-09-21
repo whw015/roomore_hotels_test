@@ -1,19 +1,16 @@
-import 'package:easy_localization/easy_localization.dart';
+﻿import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'firebase_options.dart';
 import 'app_routes.dart';
-import 'cubits/app_flow/app_flow_cubit.dart';
-import 'cubits/services_admin/services_admin_cubit.dart';
-import 'data/repositories/admin_services_repository.dart';
+import 'data/repositories/home_repository.dart';
 import 'data/repositories/app_preferences_repository.dart';
 import 'data/repositories/auth_repository.dart';
-import 'data/repositories/home_repository.dart';
-import 'firebase_options.dart';
-import 'theme/app_theme.dart';
+import 'presentation/cubits/app_flow/app_flow_cubit.dart';
+import 'presentation/cubits/cart_cubit/cart_cubit.dart';
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await EasyLocalization.ensureInitialized();
@@ -47,13 +44,15 @@ class MyApp extends StatelessWidget {
               context.read<AuthRepository>(),
             ),
           ),
-          BlocProvider(
-            create: (context) => ServicesAdminCubit(AdminServicesRepository()),
-          ),
+          BlocProvider(create: (_) => CartCubit()),
         ],
         child: MaterialApp(
           title: 'RooMore',
-          theme: buildLightTheme(),
+          theme: ThemeData(
+            useMaterial3: true,
+            colorSchemeSeed: const Color(0xFFFF7A00),
+            brightness: Brightness.light,
+          ),
           locale: context.locale,
           supportedLocales: context.supportedLocales,
           localizationsDelegates: context.localizationDelegates,

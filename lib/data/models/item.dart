@@ -1,109 +1,106 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'localized_text.dart';
 
 class Item {
   final String id;
   final LocalizedText name;
   final LocalizedText? description;
-  final List<String> imageUrls;
   final double price;
   final String currency;
-  final bool isAvailable;
-  final List<Map<String, dynamic>> options; // إن لم تستعملها اتركها []
 
-  const Item({
+  /// معرّف القسم. نقرأ من sectionId وإن لم يوجد نستخدم parentSectionId للتوافق العكسي.
+  final String sectionId;
+  final bool isAvailable;
+  final List<String> imageUrls;
+
+  final List<dynamic>? options;
+
+  Item({
     required this.id,
     required this.name,
     this.description,
-    required this.imageUrls,
     required this.price,
     required this.currency,
+    required this.sectionId,
     required this.isAvailable,
-    required this.options,
+    required this.imageUrls,
+    this.options,
   });
 
-  factory Item.fromDoc(DocumentSnapshot<Map<String, dynamic>> doc) {
-    final data = doc.data() ?? {};
-    return Item(
-      id: doc.id,
-      name: LocalizedText.fromJson(data['name']),
-      description: data['description'] != null
-          ? LocalizedText.fromJson(data['description'])
-          : null,
-      imageUrls:
-          (data['imageUrls'] as List<dynamic>?)
-              ?.map((e) => e.toString())
-              .toList() ??
-          const [],
-      price: (data['price'] is num)
-          ? (data['price'] as num).toDouble()
-          : double.tryParse('${data['price']}') ?? 0.0,
-      currency: (data['currency'] ?? 'SAR').toString(),
-      isAvailable: (data['isAvailable'] as bool?) ?? true,
-      options:
-          (data['options'] as List<dynamic>?)
-              ?.map((e) => (e as Map).cast<String, dynamic>())
-              .toList() ??
-          const [],
-    );
-  }
+  factory Item.fromDoc(String id, Map<String, dynamic> data) {
+    // name / description
+    final nameMap = (data['name'] is Map)
+        ? (data['name'] as Map).cast<String, dynamic>()
+        : <String, dynamic>{};
+    final descMap = (data['description'] is Map)
+        ? (data['description'] as Map).cast<String, dynamic>()
+        : <String, dynamic>{};
 
-  factory Item.fromMap(Map<String, dynamic> data, {String id = ''}) {
+    final name = LocalizedText(
+      ar: nameMap['ar'] as String?,
+      en: nameMap['en'] as String?,
+    );
+
+    final LocalizedText? desc = descMap.isEmpty
+        ? null
+        : LocalizedText(
+            ar: descMap['ar'] as String?,
+            en: descMap['en'] as String?,
+          );
+
+    // sectionId موحّد (يدعم fallback على parentSectionId)
+    final String secId =
+        (data['sectionId'] ?? data['parentSectionId'] ?? '') as String;
+
+    // imageUrls (قائمة نصوص)
+    final List<String> imgs = (data['imageUrls'] is List)
+        ? (data['imageUrls'] as List).whereType<String>().toList(
+            growable: false,
+          )
+        : const <String>[];
+
+    // options قد تكون List أو Map أو null — نحولها لقائمة مرنة
+    List<dynamic>? opts;
+    final rawOpts = data['options'];
+    if (rawOpts is List) {
+      opts = List<dynamic>.from(rawOpts);
+    } else if (rawOpts is Map) {
+      opts = <dynamic>[rawOpts];
+    } else {
+      opts = null;
+    }
+
     return Item(
       id: id,
-      name: LocalizedText.fromJson(data['name']),
-      description: data['description'] != null
-          ? LocalizedText.fromJson(data['description'])
-          : null,
-      imageUrls:
-          (data['imageUrls'] as List<dynamic>?)
-              ?.map((e) => e.toString())
-              .toList() ??
-          const [],
-      price: (data['price'] is num)
-          ? (data['price'] as num).toDouble()
-          : double.tryParse('${data['price']}') ?? 0.0,
-      currency: (data['currency'] ?? 'SAR').toString(),
+      name: name,
+      description: desc,
+      price: (data['price'] is int)
+          ? (data['price'] as int).toDouble()
+          : (data['price'] as num?)?.toDouble() ?? 0.0,
+      currency: (data['currency'] as String?) ?? '',
+      sectionId: secId,
       isAvailable: (data['isAvailable'] as bool?) ?? true,
-      options:
-          (data['options'] as List<dynamic>?)
-              ?.map((e) => (e as Map).cast<String, dynamic>())
-              .toList() ??
-          const [],
+      imageUrls: imgs,
+      options: opts,
     );
   }
 
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toMap() {
     return {
-      'name': name.toJson(), // ✅ ليس toMap
-      'description': description?.toJson(),
-      'imageUrls': imageUrls,
+      'name': {'ar': name.ar, 'en': name.en},
+      if (description != null)
+        'description': {'ar': description!.ar, 'en': description!.en},
       'price': price,
       'currency': currency,
+      'sectionId': sectionId,
       'isAvailable': isAvailable,
-      'options': options,
+      'imageUrls': imageUrls,
+      if (options != null) 'options': options,
     };
   }
 
-  Item copyWith({
-    String? id,
-    LocalizedText? name,
-    LocalizedText? description,
-    List<String>? imageUrls,
-    double? price,
-    String? currency,
-    bool? isAvailable,
-    List<Map<String, dynamic>>? options,
-  }) {
-    return Item(
-      id: id ?? this.id,
-      name: name ?? this.name,
-      description: description ?? this.description,
-      imageUrls: imageUrls ?? this.imageUrls,
-      price: price ?? this.price,
-      currency: currency ?? this.currency,
-      isAvailable: isAvailable ?? this.isAvailable,
-      options: options ?? this.options,
-    );
+  factory Item.fromSnapshot(DocumentSnapshot<Map<String, dynamic>> snap) {
+    return Item.fromDoc(snap.id, snap.data() ?? const {});
   }
 }

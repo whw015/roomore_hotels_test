@@ -4,16 +4,6 @@ import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, kIsWeb, TargetPlatform;
 
-/// Default [FirebaseOptions] for use with your Firebase apps.
-///
-/// Example:
-/// ```dart
-/// import 'firebase_options.dart';
-/// // ...
-/// await Firebase.initializeApp(
-///   options: DefaultFirebaseOptions.currentPlatform,
-/// );
-/// ```
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
@@ -46,52 +36,43 @@ class DefaultFirebaseOptions {
     messagingSenderId: '236361081790',
     projectId: 'roomoretest',
     authDomain: 'roomoretest.firebaseapp.com',
-    databaseURL: 'https://roomoretest-default-rtdb.firebaseio.com',
     storageBucket: 'roomoretest.firebasestorage.app',
     measurementId: 'G-YGW74CW74X',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyCdhqjHduVVIXOFCA2HS9HYisoSWunDDeQ',
-    appId: '1:236361081790:android:e2b7e1e61609fc50614fef',
+    appId: '1:236361081790:android:60b4c4ba0d2f729e614fef',
     messagingSenderId: '236361081790',
     projectId: 'roomoretest',
-    databaseURL: 'https://roomoretest-default-rtdb.firebaseio.com',
     storageBucket: 'roomoretest.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyAw1Ayx3gVXtfIOgF2MdERgWZ8rAIFTojM',
-    appId: '1:236361081790:ios:7c31b4c0f64f5715614fef',
+    appId: '1:236361081790:ios:2d32196a33a5ae6f614fef',
     messagingSenderId: '236361081790',
     projectId: 'roomoretest',
-    databaseURL: 'https://roomoretest-default-rtdb.firebaseio.com',
     storageBucket: 'roomoretest.firebasestorage.app',
-    androidClientId: '236361081790-b2ugdr9pjtdki2am6p54p5rp1jvi78jg.apps.googleusercontent.com',
-    iosClientId: '236361081790-8v72oak1iqo9e75jdg9lms7nb64t6tkc.apps.googleusercontent.com',
-    iosBundleId: 'com.example.roomoreHotelsTest',
+    iosBundleId: 'com.example.roomoreTest',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
     apiKey: 'AIzaSyAw1Ayx3gVXtfIOgF2MdERgWZ8rAIFTojM',
-    appId: '1:236361081790:ios:7c31b4c0f64f5715614fef',
+    appId: '1:236361081790:ios:2d32196a33a5ae6f614fef',
     messagingSenderId: '236361081790',
     projectId: 'roomoretest',
-    databaseURL: 'https://roomoretest-default-rtdb.firebaseio.com',
     storageBucket: 'roomoretest.firebasestorage.app',
-    androidClientId: '236361081790-b2ugdr9pjtdki2am6p54p5rp1jvi78jg.apps.googleusercontent.com',
-    iosClientId: '236361081790-8v72oak1iqo9e75jdg9lms7nb64t6tkc.apps.googleusercontent.com',
-    iosBundleId: 'com.example.roomoreHotelsTest',
+    iosBundleId: 'com.example.roomoreTest',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
     apiKey: 'AIzaSyB9vDeP1fH6WHfMjduI_S_zYOggP98bkVg',
-    appId: '1:236361081790:web:15511655473dc663614fef',
+    appId: '1:236361081790:web:f5bd529ff619e057614fef',
     messagingSenderId: '236361081790',
     projectId: 'roomoretest',
     authDomain: 'roomoretest.firebaseapp.com',
-    databaseURL: 'https://roomoretest-default-rtdb.firebaseio.com',
     storageBucket: 'roomoretest.firebasestorage.app',
-    measurementId: 'G-83C3PCQF2T',
+    measurementId: 'G-MRJT8NQ84M',
   );
 }

@@ -1,55 +1,47 @@
 // lib/data/models/section.dart
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'localized_text.dart';
 
 class Section {
   final String id;
   final LocalizedText name;
-  final String? parentSectionId; // null للجذري
-  final bool isActive;
+  final String? parentSectionId; // null = root
   final int order;
-  final bool isRoot;
+  final bool isActive;
+  final String? iconUrl;
+  final String? imageUrl;
+  final String? type; // "menu", "service", ...
 
   Section({
     required this.id,
     required this.name,
-    required this.parentSectionId,
-    required this.isActive,
-    required this.order,
-    required this.isRoot,
+    this.parentSectionId,
+    this.order = 0,
+    this.isActive = true,
+    this.iconUrl,
+    this.imageUrl,
+    this.type,
   });
 
-  factory Section.fromDoc(DocumentSnapshot<Map<String, dynamic>> doc) {
-    final data = doc.data() ?? {};
-    final dynamic rawName = data['name'];
-    final name = LocalizedText.fromJson(rawName); // ✅ يتحمل String/Map
-
-    final parentId = (data.containsKey('parentSectionId'))
-        ? data['parentSectionId'] as String?
-        : (data['parentId'] as String?); // دعم اسم قديم
-
-    final bool isRoot =
-        (data['isRoot'] as bool?) ?? (parentId == null || parentId.isEmpty);
-
+  factory Section.fromDoc(String id, Map<String, dynamic> data) {
     return Section(
-      id: doc.id,
-      name: name,
-      parentSectionId: parentId,
-      isActive: (data['isActive'] as bool?) ?? true,
-      order: (data['order'] is int)
-          ? data['order'] as int
-          : int.tryParse('${data['order']}') ?? 0,
-      isRoot: isRoot,
+      id: id,
+      name: LocalizedText.fromMap(data['name'] as Map<String, dynamic>?),
+      parentSectionId: data['parent_section_id'] as String?,
+      order: (data['order'] ?? 0) as int,
+      isActive: (data['is_active'] ?? true) as bool,
+      iconUrl: data['icon_url'] as String?,
+      imageUrl: data['image_url'] as String?,
+      type: data['type'] as String?,
     );
   }
 
-  Map<String, dynamic> toJson() {
-    return {
-      'name': name.toJson(), // ✅ Map للّغات
-      'parentSectionId': parentSectionId,
-      'isActive': isActive,
-      'order': order,
-      'isRoot': isRoot,
-    };
-  }
+  Map<String, dynamic> toMap() => {
+    'name': name.toMap(),
+    'parent_section_id': parentSectionId,
+    'order': order,
+    'is_active': isActive,
+    if (iconUrl != null) 'icon_url': iconUrl,
+    if (imageUrl != null) 'image_url': imageUrl,
+    if (type != null) 'type': type,
+  };
 }
