@@ -3,16 +3,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../data/models/favorite_item.dart';
-import '../../data/models/home_hotel_stay.dart';
-import '../../data/models/order_summary.dart';
 import '../../data/repositories/auth_repository.dart';
 import '../../data/repositories/home_repository.dart';
 import '../../theme/app_colors.dart';
 import '../cubits/app_flow/app_flow_cubit.dart';
 import '../cubits/home/home_cubit.dart';
 import '../cubits/home/home_state.dart';
-import '../widgets/home_qr_center.dart';
-import '../widgets/home_sections_grid.dart';
 import 'language_selection_screen.dart';
 import 'login_register_screen.dart';
 import 'profile_screen.dart';
@@ -93,18 +89,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   _showComingSoon(context, notificationsLabel),
               onBookingsTap: () => _showComingSoon(context, bookingsLabel),
               onSearchTap: () => _showComingSoon(context, searchActionLabel),
-            ),
-            _SecondaryTabWrapper(
-              child: OrdersTab(
-                repository: context.read<HomeRepository>(),
-                userId: user?.uid ?? '',
-              ),
-            ),
-            _SecondaryTabWrapper(
-              child: FavoritesTab(
-                repository: context.read<HomeRepository>(),
-                userId: user?.uid ?? '',
-              ),
             ),
           ],
         ),
@@ -300,7 +284,6 @@ class _HomeTab extends StatelessWidget {
             topInset: padding.top,
           ),
           const SizedBox(height: 24),
-          Expanded(child: _HomeDashboard(controller: controller)),
         ],
       ),
     );
@@ -434,80 +417,6 @@ class _HeaderIconButton extends StatelessWidget {
   }
 }
 
-class _SecondaryTabWrapper extends StatelessWidget {
-  const _SecondaryTabWrapper({required this.child});
-
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) {
-    final topInset = MediaQuery.of(context).padding.top + 16;
-    return Padding(
-      padding: EdgeInsets.only(top: topInset),
-      child: child,
-    );
-  }
-}
-
-class _HomeDashboard extends StatelessWidget {
-  const _HomeDashboard({required this.controller});
-
-  final TextEditingController controller;
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<HomeCubit, HomeState>(
-      builder: (context, state) {
-        if (state.status == HomeContentStatus.initial ||
-            state.status == HomeContentStatus.loading) {
-          return const Center(child: CircularProgressIndicator());
-        }
-
-        final message = state.messageKey == null
-            ? null
-            : tr(state.messageKey!, namedArgs: state.messageArgs ?? const {});
-
-        if (state.showSections) {
-          if (controller.text.isNotEmpty) {
-            WidgetsBinding.instance.addPostFrameCallback((_) {
-              controller.clear();
-            });
-          }
-          final stay = state.stay;
-          if (stay == null) {
-            return const HomeSectionsGrid();
-          }
-          return Column(
-            children: [
-              _StayInfoCard(
-                stay: stay,
-                isCheckingOut: state.isCheckingOut,
-                onCheckout: () async {
-                  await context.read<HomeCubit>().checkOutFromHotel();
-                },
-              ),
-              const Expanded(child: HomeSectionsGrid()),
-            ],
-          );
-        }
-
-        return HomeQrCenter(
-          message: message,
-          controller: controller,
-          isProcessing: state.isVerifying,
-          onConfirm: (code) async {
-            FocusScope.of(context).unfocus();
-            if (code != controller.text) {
-              controller.text = code;
-            }
-            await context.read<HomeCubit>().verifyHotelCode(code);
-          },
-        );
-      },
-    );
-  }
-}
-
 extension BuildContextLocalization on BuildContext {
   String localizedOrFallback({
     required String key,
@@ -526,140 +435,6 @@ extension BuildContextLocalization on BuildContext {
       return resolved;
     }
     return value;
-  }
-}
-
-class _StayInfoCard extends StatelessWidget {
-  const _StayInfoCard({
-    required this.stay,
-    required this.isCheckingOut,
-    required this.onCheckout,
-  });
-
-  final HomeHotelStay stay;
-  final bool isCheckingOut;
-  final Future<void> Function() onCheckout;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
-    final room = stay.roomNumber.trim().isEmpty ? '-' : stay.roomNumber.trim();
-    final hotelName = _localizedHotelName(context, stay);
-    final dateLabel = _formatStayDateTime(context, stay.updatedAt);
-    final rawSummaryLine = context.localizedOrFallback(
-      key: 'home.current_stay_banner.summary',
-      fallback: 'You checked in to {hotel}\n on {date}.',
-      namedArgs: {'hotel': hotelName, 'date': dateLabel},
-    );
-    final summaryLine = rawSummaryLine.replaceAll(r'\n', '\n');
-    final roomLine = context.localizedOrFallback(
-      key: 'home.current_stay_banner.room',
-      fallback: 'Room number {room}',
-      namedArgs: {'room': room},
-    );
-    final wishLine = context.localizedOrFallback(
-      key: 'home.current_stay_banner.wish',
-      fallback: 'We wish you a pleasant stay',
-    );
-    return Container(
-      margin: const EdgeInsetsDirectional.fromSTEB(5, 5, 5, 5),
-      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-      decoration: BoxDecoration(
-        color: colorScheme.surface,
-        borderRadius: BorderRadius.circular(15),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.06),
-            blurRadius: 18,
-            offset: const Offset(0, 10),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            summaryLine,
-            style: theme.textTheme.titleMedium?.copyWith(
-              color: colorScheme.onSurface,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-          const SizedBox(height: 12),
-          Text(
-            roomLine,
-            style: theme.textTheme.bodyLarge?.copyWith(
-              color: colorScheme.onSurface,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          const SizedBox(height: 6),
-          Text(
-            wishLine,
-            style: theme.textTheme.bodyMedium?.copyWith(
-              color: colorScheme.onSurfaceVariant,
-            ),
-          ),
-          FilledButton.icon(
-            onPressed: isCheckingOut
-                ? null
-                : () async {
-                    await onCheckout();
-                  },
-            icon: isCheckingOut
-                ? SizedBox(
-                    width: 16,
-                    height: 16,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2,
-                      valueColor: AlwaysStoppedAnimation<Color>(
-                        colorScheme.onPrimary,
-                      ),
-                    ),
-                  )
-                : const Icon(Icons.logout_rounded),
-            label: Text(
-              isCheckingOut
-                  ? tr('home.actions.checkout_in_progress')
-                  : tr('home.actions.checkout'),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-String _localizedHotelName(BuildContext context, HomeHotelStay stay) {
-  final localeCode = context.locale.languageCode.toLowerCase();
-  final arName = stay.hotelNameAr?.trim();
-  final enName = stay.hotelNameEn?.trim();
-  final defaultName = stay.hotelName.trim();
-  final fallback = stay.hotelCode.trim();
-
-  String pickPreferred(List<String?> options) {
-    for (final option in options) {
-      if (option != null && option.trim().isNotEmpty) {
-        return option.trim();
-      }
-    }
-    return fallback.isEmpty ? stay.hotelId : fallback;
-  }
-
-  if (localeCode == 'ar') {
-    return pickPreferred([arName, defaultName, enName]);
-  }
-  return pickPreferred([enName, defaultName, arName]);
-}
-
-String _formatStayDateTime(BuildContext context, DateTime? timestamp) {
-  final localeTag = context.locale.toLanguageTag();
-  final value = timestamp ?? DateTime.now();
-  try {
-    return DateFormat.yMMMMd(localeTag).add_jm().format(value);
-  } catch (_) {
-    return DateFormat('y/MM/dd HH:mm', localeTag).format(value);
   }
 }
 
@@ -821,111 +596,6 @@ class _HomeDrawer extends StatelessWidget {
   }
 }
 
-class OrdersTab extends StatelessWidget {
-  const OrdersTab({required this.repository, required this.userId, super.key});
-
-  final HomeRepository repository;
-  final String userId;
-
-  @override
-  Widget build(BuildContext context) {
-    return StreamBuilder<List<OrderSummary>>(
-      stream: repository.watchOrders(userId: userId),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
-        }
-        final orders = snapshot.data ?? const [];
-        if (orders.isEmpty) {
-          return _CenteredMessage(tr('home.orders.empty'));
-        }
-        return ListView.separated(
-          padding: const EdgeInsets.fromLTRB(16, 24, 16, 24),
-          itemCount: orders.length,
-          separatorBuilder: (context, _) => const SizedBox(height: 12),
-          itemBuilder: (context, index) {
-            final order = orders[index];
-            final statusColor = _colorFromHex(order.statusColorHex);
-            return Card(
-              clipBehavior: Clip.antiAlias,
-              child: ListTile(
-                leading: CircleAvatar(
-                  backgroundColor: Theme.of(
-                    context,
-                  ).colorScheme.primary.withValues(alpha: 0.15),
-                  child: const Icon(Icons.receipt_long_outlined),
-                ),
-                title: Text(
-                  tr('home.orders.details_title', args: [order.reference]),
-                ),
-                subtitle: Text(
-                  '${tr('home.orders.created_label')}: ${_formatDate(order.createdAt)}',
-                ),
-                trailing: _OrderSummaryTrailing(
-                  total: order.total,
-                  statusLabel: order.status,
-                  statusColor: statusColor,
-                ),
-                onTap: () => _showOrderDetails(context, order, statusColor),
-              ),
-            );
-          },
-        );
-      },
-    );
-  }
-
-  void _showOrderDetails(
-    BuildContext context,
-    OrderSummary order,
-    Color statusColor,
-  ) {
-    showModalBottomSheet<void>(
-      context: context,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      builder: (context) {
-        return Padding(
-          padding: const EdgeInsets.all(24),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                tr('home.orders.details_title', args: [order.reference]),
-                style: Theme.of(context).textTheme.titleMedium,
-              ),
-              const SizedBox(height: 12),
-              Text('${tr('home.orders.status_label')}: ${order.status}'),
-              const SizedBox(height: 8),
-              Text(
-                '${tr('home.orders.total_label')}: ${order.total.toStringAsFixed(2)} ${_currencyLabel()}',
-              ),
-              const SizedBox(height: 8),
-              Text(
-                '${tr('home.orders.created_label')}: ${_formatDate(order.createdAt)}',
-              ),
-              const SizedBox(height: 24),
-              Align(
-                alignment: AlignmentDirectional.centerEnd,
-                child: FilledButton.tonal(
-                  onPressed: () => Navigator.of(context).pop(),
-                  style: FilledButton.styleFrom(
-                    backgroundColor: statusColor.withValues(alpha: 0.15),
-                    foregroundColor: statusColor,
-                  ),
-                  child: Text(tr('home.orders.close')),
-                ),
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-}
-
 class FavoritesTab extends StatelessWidget {
   const FavoritesTab({
     required this.repository,
@@ -1036,57 +706,6 @@ class FavoritesTab extends StatelessWidget {
   }
 }
 
-class _OrderSummaryTrailing extends StatelessWidget {
-  const _OrderSummaryTrailing({
-    required this.total,
-    required this.statusLabel,
-    required this.statusColor,
-  });
-
-  final double total;
-  final String statusLabel;
-  final Color statusColor;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: [
-        Text('${total.toStringAsFixed(2)} ${_currencyLabel()}'),
-        const SizedBox(height: 6),
-        _StatusBadge(label: statusLabel, color: statusColor),
-      ],
-    );
-  }
-}
-
-class _StatusBadge extends StatelessWidget {
-  const _StatusBadge({required this.label, required this.color});
-
-  final String label;
-  final Color color;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-      decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.15),
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Text(
-        label,
-        style: TextStyle(
-          color: color,
-          fontSize: 12,
-          fontWeight: FontWeight.w600,
-        ),
-      ),
-    );
-  }
-}
-
 class _CenteredMessage extends StatelessWidget {
   const _CenteredMessage(this.message);
 
@@ -1116,44 +735,4 @@ String _firstLetter(String value) {
     return '';
   }
   return String.fromCharCode(iterator.current).toUpperCase();
-}
-
-String _currencyLabel() {
-  final value = tr('home.orders.currency');
-  return value == 'home.orders.currency' ? 'SAR' : value;
-}
-
-Color _colorFromHex(String hex) {
-  final cleaned = hex.replaceFirst('#', '').toUpperCase();
-  final buffer = StringBuffer();
-  if (cleaned.length == 6) {
-    buffer.write('FF');
-  }
-  buffer.write(cleaned.padLeft(6, '0'));
-  final parsed = int.tryParse(buffer.toString(), radix: 16) ?? 0xFFFFA726;
-  return Color(parsed);
-}
-
-String _formatDate(DateTime date) {
-  final months = [
-    _monthLabel('home.months.january', 'ظٹظ†ط§ظٹط±'),
-    _monthLabel('home.months.february', 'ظپط¨ط±ط§ظٹط±'),
-    _monthLabel('home.months.march', 'ظ…ط§ط±ط³'),
-    _monthLabel('home.months.april', 'ط£ط¨ط±ظٹظ„'),
-    _monthLabel('home.months.may', 'ظ…ط§ظٹظˆ'),
-    _monthLabel('home.months.june', 'ظٹظˆظ†ظٹظˆ'),
-    _monthLabel('home.months.july', 'ظٹظˆظ„ظٹظˆ'),
-    _monthLabel('home.months.august', 'ط£ط؛ط³ط·ط³'),
-    _monthLabel('home.months.september', 'ط³ط¨طھظ…ط¨ط±'),
-    _monthLabel('home.months.october', 'ط£ظƒطھظˆط¨ط±'),
-    _monthLabel('home.months.november', 'ظ†ظˆظپظ…ط¨ط±'),
-    _monthLabel('home.months.december', 'ط¯ظٹط³ظ…ط¨ط±'),
-  ];
-  final monthName = months[(date.month - 1).clamp(0, months.length - 1)];
-  return '${date.day} $monthName ${date.year}';
-}
-
-String _monthLabel(String key, String fallback) {
-  final value = tr(key);
-  return value == key ? fallback : value;
 }
