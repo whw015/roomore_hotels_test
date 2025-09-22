@@ -40,7 +40,8 @@ class _SplashScreenState extends State<SplashScreen> {
       if (!mounted) return;
       final cubit = context.read<AppFlowCubit>();
       final currentState = cubit.state;
-      if (!currentState.isLoading && currentState.status != AppFlowStatus.initial) {
+      if (!currentState.isLoading &&
+          currentState.status != AppFlowStatus.initial) {
         _navigateToStatus(currentState.status);
       } else {
         _subscription = cubit.stream.listen((state) {
@@ -77,16 +78,28 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       backgroundColor: AppColors.orange,
       body: Center(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 32.0),
-          child: const Text(
-            'RooMore',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 35,
-              fontWeight: FontWeight.w900,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const Text(
+              'RooMore',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 35,
+                fontWeight: FontWeight.w900,
+              ),
             ),
-          ),
+            SizedBox(height: 10),
+            const Text(
+              'Hotels Management',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 20,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ],
         ),
       ),
     );
