@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../data/models/cart_models.dart';
+import '../../data/models/cart_models.dart';
 import 'cart_state.dart';
 
 class CartCubit extends Cubit<CartState> {

@@ -3,14 +3,16 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../data/repositories/app_preferences_repository.dart';
-import '../../../data/repositories/auth_repository.dart';
+import '../../data/repositories/app_preferences_repository.dart';
+import '../../data/repositories/auth_repository.dart';
 import 'app_flow_state.dart';
 
 class AppFlowCubit extends Cubit<AppFlowState> {
   AppFlowCubit(this._preferencesRepository, this._authRepository)
-      : super(const AppFlowState.initial()) {
-    _authSubscription = _authRepository.authStateChanges().listen(_handleAuthChange);
+    : super(const AppFlowState.initial()) {
+    _authSubscription = _authRepository.authStateChanges().listen(
+      _handleAuthChange,
+    );
   }
 
   final AppPreferencesRepository _preferencesRepository;
@@ -61,12 +63,7 @@ class AppFlowCubit extends Cubit<AppFlowState> {
       hasLanguage: hasLanguage,
       isLoggedIn: user != null,
     );
-    emit(
-      state.copyWith(
-        status: status,
-        isLoggedIn: user != null,
-      ),
-    );
+    emit(state.copyWith(status: status, isLoggedIn: user != null));
   }
 
   @override

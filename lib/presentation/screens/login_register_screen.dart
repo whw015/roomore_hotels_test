@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../data/repositories/auth_repository.dart';
-import '../cubits/app_flow/app_flow_cubit.dart';
-import '../cubits/app_flow/app_flow_state.dart';
+import '../../cubits/app_flow/app_flow_cubit.dart';
+import '../../cubits/app_flow/app_flow_state.dart';
 import 'home_screen.dart';
 
 class LoginRegisterScreen extends StatefulWidget {
@@ -98,8 +98,9 @@ class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
                         TextFormField(
                           controller: _confirmPasswordController,
                           obscureText: true,
-                          decoration:
-                              InputDecoration(labelText: 'confirm_password'.tr()),
+                          decoration: InputDecoration(
+                            labelText: 'confirm_password'.tr(),
+                          ),
                           validator: (value) {
                             if (_isLogin) {
                               return null;
@@ -121,9 +122,13 @@ class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
                             ? const SizedBox(
                                 height: 20,
                                 width: 20,
-                                child: CircularProgressIndicator(strokeWidth: 2),
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                ),
                               )
-                            : Text(_isLogin ? 'login'.tr() : 'create_account'.tr()),
+                            : Text(
+                                _isLogin ? 'login'.tr() : 'create_account'.tr(),
+                              ),
                       ),
                       const SizedBox(height: 8),
                       TextButton(
@@ -132,9 +137,11 @@ class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
                             _isLogin = !_isLogin;
                           });
                         },
-                        child: Text(_isLogin
-                            ? 'create_account'.tr()
-                            : 'already_have_account'.tr()),
+                        child: Text(
+                          _isLogin
+                              ? 'create_account'.tr()
+                              : 'already_have_account'.tr(),
+                        ),
                       ),
                     ],
                   ),
@@ -187,13 +194,14 @@ class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
       if (_isLogin) {
         await authRepository.signInWithEmail(email: email, password: password);
       } else {
-        await authRepository.registerWithEmail(email: email, password: password);
+        await authRepository.registerWithEmail(
+          email: email,
+          password: password,
+        );
       }
       if (!mounted) return;
       await flowCubit.refreshFlow();
-      messenger.showSnackBar(
-        SnackBar(content: Text('success_signed_in'.tr())),
-      );
+      messenger.showSnackBar(SnackBar(content: Text('success_signed_in'.tr())));
     } on FirebaseAuthException catch (e) {
       _showErrorMessage(e);
     } catch (error) {
@@ -218,9 +226,7 @@ class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
       await authRepository.signInWithGoogle();
       if (!mounted) return;
       await flowCubit.refreshFlow();
-      messenger.showSnackBar(
-        SnackBar(content: Text('success_signed_in'.tr())),
-      );
+      messenger.showSnackBar(SnackBar(content: Text('success_signed_in'.tr())));
     } on AuthCancelledException {
       // User cancelled the dialog, no feedback needed.
     } on FirebaseAuthException catch (e) {
@@ -247,9 +253,7 @@ class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
       await authRepository.signInWithApple();
       if (!mounted) return;
       await flowCubit.refreshFlow();
-      messenger.showSnackBar(
-        SnackBar(content: Text('success_signed_in'.tr())),
-      );
+      messenger.showSnackBar(SnackBar(content: Text('success_signed_in'.tr())));
     } on AuthUnavailableException catch (e) {
       _showErrorMessage(e);
     } on FirebaseAuthException catch (e) {
@@ -353,9 +357,7 @@ class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
       await completer.future;
       if (!mounted) return;
       await flowCubit.refreshFlow();
-      messenger.showSnackBar(
-        SnackBar(content: Text('success_signed_in'.tr())),
-      );
+      messenger.showSnackBar(SnackBar(content: Text('success_signed_in'.tr())));
     } on AuthCancelledException {
       // User cancelled, no feedback needed.
     } on FirebaseAuthException catch (e) {
@@ -386,10 +388,7 @@ class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
           content: TextField(
             controller: controller,
             keyboardType: keyboardType,
-            decoration: InputDecoration(
-              labelText: label,
-              hintText: hint,
-            ),
+            decoration: InputDecoration(labelText: label, hintText: hint),
           ),
           actions: [
             TextButton(
@@ -423,9 +422,9 @@ class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
     } else {
       message = 'unknown_error'.tr();
     }
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message)),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(message)));
   }
 }
 
@@ -474,10 +473,12 @@ class _ModeButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        backgroundColor:
-            isSelected ? Theme.of(context).colorScheme.primary : null,
-        foregroundColor:
-            isSelected ? Colors.white : Theme.of(context).colorScheme.primary,
+        backgroundColor: isSelected
+            ? Theme.of(context).colorScheme.primary
+            : null,
+        foregroundColor: isSelected
+            ? Colors.white
+            : Theme.of(context).colorScheme.primary,
       ),
       onPressed: onTap,
       child: Text(label),

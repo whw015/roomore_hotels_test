@@ -7,8 +7,8 @@ import 'app_routes.dart';
 import 'data/repositories/home_repository.dart';
 import 'data/repositories/app_preferences_repository.dart';
 import 'data/repositories/auth_repository.dart';
-import 'presentation/cubits/app_flow/app_flow_cubit.dart';
-import 'presentation/cubits/cart_cubit/cart_cubit.dart';
+import 'cubits/app_flow/app_flow_cubit.dart';
+import 'cubits/cart_cubit/cart_cubit.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

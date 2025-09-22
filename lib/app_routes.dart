@@ -8,7 +8,7 @@ import 'presentation/screens/service_item_details_screen.dart';
 import 'presentation/screens/splash_screen.dart';
 import 'data/repositories/auth_repository.dart';
 import 'data/repositories/home_repository.dart';
-import 'presentation/cubits/home/home_cubit.dart';
+import 'cubits/home/home_cubit.dart';
 
 class AppRoutes {
   static const initialRoute = SplashScreen.routeName;

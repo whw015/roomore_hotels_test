@@ -1,4 +1,4 @@
-import '../../../data/models/home_hotel_stay.dart';
+import '../../data/models/home_hotel_stay.dart';
 
 enum HomeContentStatus { initial, loading, showQr, showSections, error }
 

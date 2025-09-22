@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../theme/app_colors.dart';
-import '../cubits/app_flow/app_flow_cubit.dart';
-import '../cubits/app_flow/app_flow_state.dart';
+import '../../cubits/app_flow/app_flow_cubit.dart';
+import '../../cubits/app_flow/app_flow_state.dart';
 import 'home_screen.dart';
 import 'login_register_screen.dart';
 
@@ -20,7 +20,9 @@ class LanguageSelectionScreen extends StatelessWidget {
       listener: (context, state) {
         switch (state.status) {
           case AppFlowStatus.authentication:
-            Navigator.of(context).pushReplacementNamed(LoginRegisterScreen.routeName);
+            Navigator.of(
+              context,
+            ).pushReplacementNamed(LoginRegisterScreen.routeName);
             break;
           case AppFlowStatus.home:
             Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
@@ -43,17 +45,17 @@ class LanguageSelectionScreen extends StatelessWidget {
                   'app_name'.tr(),
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                        color: AppColors.orange,
-                        fontWeight: FontWeight.w800,
-                      ),
+                    color: AppColors.orange,
+                    fontWeight: FontWeight.w800,
+                  ),
                 ),
                 const SizedBox(height: 24),
                 Text(
                   'select_language'.tr(),
                   textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                        fontWeight: FontWeight.w600,
-                      ),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600),
                 ),
                 const SizedBox(height: 32),
                 _LanguageButton(
@@ -108,4 +110,3 @@ class _LanguageButton extends StatelessWidget {
     );
   }
 }
-

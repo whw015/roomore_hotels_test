@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../data/models/hotel_code_result.dart';
-import '../../../data/models/home_hotel_stay.dart';
-import '../../../data/repositories/auth_repository.dart';
-import '../../../data/repositories/home_repository.dart';
+import '../../data/models/hotel_code_result.dart';
+import '../../data/models/home_hotel_stay.dart';
+import '../../data/repositories/auth_repository.dart';
+import '../../data/repositories/home_repository.dart';
 import 'home_state.dart';
 
 class HomeCubit extends Cubit<HomeState> {
@@ -37,7 +37,13 @@ class HomeCubit extends Cubit<HomeState> {
 
     final userId = user?.uid ?? '';
     if (userId.isEmpty) {
-      emit(state.copyWith(status: HomeContentStatus.showQr, stay: null, isCheckingOut: false));
+      emit(
+        state.copyWith(
+          status: HomeContentStatus.showQr,
+          stay: null,
+          isCheckingOut: false,
+        ),
+      );
       return;
     }
 
@@ -74,7 +80,13 @@ class HomeCubit extends Cubit<HomeState> {
       return;
     }
 
-    emit(state.copyWith(isVerifying: true, clearMessage: true, isCheckingOut: false));
+    emit(
+      state.copyWith(
+        isVerifying: true,
+        clearMessage: true,
+        isCheckingOut: false,
+      ),
+    );
 
     final result = await _homeRepository.verifyHotelCode(
       userId: user.uid,
@@ -193,7 +205,13 @@ class HomeCubit extends Cubit<HomeState> {
 
   void _handleStayUpdate(HomeHotelStay? stay) {
     if (stay == null) {
-      emit(state.copyWith(status: HomeContentStatus.showQr, stay: null, isCheckingOut: false));
+      emit(
+        state.copyWith(
+          status: HomeContentStatus.showQr,
+          stay: null,
+          isCheckingOut: false,
+        ),
+      );
       return;
     }
 

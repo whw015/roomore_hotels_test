@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../screens/interior_services_screen.dart';
-import '../cubits/home/home_cubit.dart';
+import '../../cubits/home/home_cubit.dart';
 
 class HomeSectionsGrid extends StatelessWidget {
   const HomeSectionsGrid({super.key});

@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import '../../../data/models/cart_models.dart';
+import '../../data/models/cart_models.dart';
 
 class CartState extends Equatable {
   final List<CartLine> lines;
