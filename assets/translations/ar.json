@@ -347,5 +347,27 @@
     "added": "تمت الإضافة إلى السلة"
   },
   "google": "جوجل",
-  "apple": "آبل"
+  "apple": "آبل",
+  "manage_employees": "إدارة الموظفين",
+  "add_employee": "إضافة موظف",
+  "full_name": "الاسم الكامل",
+  "gender": "الجنس",
+  "nationality": "الجنسية",
+  "date_of_birth": "تاريخ الميلاد",
+  "id_number": "رقم الهوية",
+  "job_title": "المسمى الوظيفي",
+  "employee_id": "الرقم الوظيفي",
+  "manage_work_groups": "إدارة مجموعات العمل",
+  "add_work_group": "إضافة مجموعة عمل",
+  "group_name": "اسم المجموعة",
+  "permissions": "الصلاحيات",
+  "manage_guests": "إدارة النزلاء",
+  "add_guest": "إضافة نزيل",
+  "arrival_date": "تاريخ القدوم",
+  "error.no_user": "لا يوجد مستخدم مسجل",
+  "scan_qr_code": "مسح رمز QR",
+  "enter_qr_code": "أدخل رمز QR",
+  "confirm": "تأكيد",
+  "error.login_failed": "فشل تسجيل الدخول",
+  "welcome": "مرحبًا"
 }

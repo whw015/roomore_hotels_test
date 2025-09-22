@@ -347,5 +347,27 @@
     "added": "Added to cart"
   },
   "google": "Google",
-  "apple": "Apple"
+  "apple": "Apple",
+  "manage_employees": "Manage Employees",
+  "add_employee": "Add Employee",
+  "full_name": "Full Name",
+  "gender": "Gender",
+  "nationality": "Nationality",
+  "date_of_birth": "Date of Birth",
+  "id_number": "ID Number",
+  "job_title": "Job Title",
+  "employee_id": "Employee ID",
+  "manage_work_groups": "Manage Work Groups",
+  "add_work_group": "Add Work Group",
+  "group_name": "Group Name",
+  "permissions": "Permissions",
+  "manage_guests": "Manage Guests",
+  "add_guest": "Add Guest",
+  "arrival_date": "Arrival Date",
+  "error.no_user": "No user logged in",
+  "scan_qr_code": "Scan QR Code",
+  "enter_qr_code": "Enter QR Code",
+  "confirm": "Confirm",
+  "error.login_failed": "Login failed",
+  "welcome": "Welcome"
 }
