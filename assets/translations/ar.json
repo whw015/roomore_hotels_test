@@ -63,6 +63,10 @@
     "greeting_basic": "مرحبًا {name}",
     "greeting_hotel": "في {hotel}",
     "room_number": "الغرفة {number}",
+    "qr_prompt": "امسح رمز الفندق أو أدخِل الكود يدويًا",
+    "hotel_linked": "تم ربط الفندق بنجاح",
+    "hotel_cleared": "تم إلغاء ربط الفندق",
+    "change_hotel": "تبديل الفندق",
     "sections": {
       "services": "خدمات الفندق",
       "stores": "المتاجر",
@@ -71,7 +75,8 @@
       "my_bookings": "حجوزاتي",
       "nearby": "أماكن قريبة",
       "rooms": "الغرف المتاحة",
-      "emergency": "خدمات الطوارئ"
+      "emergency": "خدمات الطوارئ",
+      "empty": "لا توجد أقسام متاحة حاليًا."
     },
     "messages": {
       "not_guest": "يبدو أنك غير مسجل كضيف في هذا الفندق. يرجى التواصل مع الاستقبال.",
@@ -124,6 +129,12 @@
       "summary": "لقد سجّلت دخولك إلى {hotel}\\n في {date}.",
       "room": "رقم الغرفة {room}",
       "wish": "نتمنى لكم طيب الإقامة"
+    },
+    "admin": {
+      "employees": "الموظفون",
+      "workgroups": "مجموعات العمل",
+      "guests": "النزلاء",
+      "sections": "الأقسام"
     }
   },
   "hotel_code": "رمز الفندق",
@@ -320,7 +331,8 @@
     "permission_denied": "ليست لديك صلاحية لتنفيذ هذا الإجراء.",
     "required": "هذا الحقل مطلوب",
     "number": "أدخل رقمًا صحيحًا",
-    "not_found": "غير موجود"
+    "not_found": "غير موجود",
+    "no_hotel_selected": "لم يتم اختيار فندق"
   },
   "language_arabic": "العربية",
   "language_english": "الإنجليزية",
@@ -370,5 +382,27 @@
   "confirm": "تأكيد",
   "error.login_failed": "فشل تسجيل الدخول",
   "welcome": "مرحبًا",
-  "common.missingHotelId": "معرف الفندق غير متوفر"
+  "common.missingHotelId": "معرف الفندق غير متوفر",
+  "admin": {
+    "sections_services": {
+      "title": "الأقسام والخدمات",
+      "subtitle": "إدارة الأقسام الرئيسية والفرعية والخدمات",
+      "empty": "لا توجد أقسام حتى الآن"
+    },
+    "employees": {
+      "title": "الموظفون",
+      "subtitle": "إدارة موظفي الفندق"
+    },
+    "workgroups": {
+      "title": "مجموعات العمل",
+      "subtitle": "صلاحيات الفرق والمستخدمين"
+    },
+    "guests": {
+      "title": "النزلاء",
+      "subtitle": "إدارة بيانات النزلاء"
+    }
+  },
+  "todo": {
+    "soon": "قريبًا…"
+  }
 }

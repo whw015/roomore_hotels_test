@@ -1,82 +1,216 @@
+// lib/presentation/widgets/home_sections_grid.dart
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../screens/interior_services_screen.dart';
-import '../../cubits/home/home_cubit.dart';
+import '../../data/models/section.dart';
+import '../../data/repositories/services_repository.dart';
 
 class HomeSectionsGrid extends StatelessWidget {
-  const HomeSectionsGrid({super.key});
+  final String hotelId; // يُمرَّر من HomeScreen بعد نجاح ربط الفندق
+
+  const HomeSectionsGrid({super.key, required this.hotelId});
 
   @override
   Widget build(BuildContext context) {
-    // نقرأ hotelId من HomeCubit عبر الحالة
-    final String? hotelId = context.select<HomeCubit, String?>(
-      (cubit) => cubit.state.stay?.hotelId,
-    );
+    final repo = ServicesRepository();
+    final lang = context.locale.languageCode;
 
-    return GridView.count(
-      crossAxisCount: 2,
-      padding: const EdgeInsets.all(12),
-      crossAxisSpacing: 12,
-      mainAxisSpacing: 12,
+    final isRTL = Directionality.of(context) == TextDirection.RTL;
+    final theme = Theme.of(context);
+    final colors = theme.colorScheme;
+
+    return Column(
       children: [
-        _SectionItem(
-          icon: Icons.room_service_outlined,
-          color: const Color(0xFF2196F3),
-          label: tr('home.sections.services'),
-          onTap: () {
-            if (hotelId == null || hotelId.isEmpty) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(tr('common.missingHotelId'))),
-              );
-              return;
-            }
-            Navigator.pushNamed(
-              context,
-              InteriorServicesScreen.routeName,
-              arguments: InteriorServicesArgs(
-                hotelId: hotelId,
-                title: tr('home.sections.services'),
+        // صف أزرار الإدارة السريعة
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          child: Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            alignment: WrapAlignment.center,
+            children: [
+              _AdminChip(
+                icon: Icons.people_alt_outlined,
+                label: tr('home.admin.employees'),
+                background: colors.primaryContainer,
+                foreground: colors.onPrimaryContainer,
+                onTap: () =>
+                    Navigator.of(context).pushNamed('/admin/employees'),
               ),
-            );
-          },
+              _AdminChip(
+                icon: Icons.group_work_outlined,
+                label: tr('home.admin.workgroups'),
+                background: colors.secondaryContainer,
+                foreground: colors.onSecondaryContainer,
+                onTap: () =>
+                    Navigator.of(context).pushNamed('/admin/workgroups'),
+              ),
+              _AdminChip(
+                icon: Icons.bed_outlined,
+                label: tr('home.admin.guests'),
+                background: colors.tertiaryContainer,
+                foreground: colors.onTertiaryContainer,
+                onTap: () => Navigator.of(context).pushNamed('/admin/guests'),
+              ),
+              _AdminChip(
+                icon: Icons.folder_open,
+                label: tr('home.admin.sections'),
+                background: colors.surfaceContainerHighest,
+                foreground: colors.onSurface,
+                onTap: () => Navigator.of(context).pushNamed(
+                  '/admin/sections',
+                  arguments: {'hotelId': hotelId}, // أو تمرير String مباشرة
+                ),
+              ),
+            ],
+          ),
+        ),
+
+        const SizedBox(height: 8),
+
+        // قائمة الأقسام الرئيسية
+        Expanded(
+          child: StreamBuilder<List<Section>>(
+            stream: repo.streamRootSectionsActive(hotelId),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              }
+
+              final sections = snapshot.data ?? const <Section>[];
+              if (sections.isEmpty) {
+                return Center(child: Text(tr('home.sections.empty')));
+              }
+
+              final gridCount = MediaQuery.of(context).size.width >= 600
+                  ? 3
+                  : 2;
+
+              return GridView.builder(
+                padding: const EdgeInsets.all(12),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: gridCount,
+                  crossAxisSpacing: 12,
+                  mainAxisSpacing: 12,
+                  childAspectRatio: isRTL ? 1.05 : 1.05,
+                ),
+                itemCount: sections.length,
+                itemBuilder: (context, index) {
+                  final s = sections[index];
+                  final title = s.name.resolve(lang);
+
+                  return Card(
+                    elevation: 1,
+                    clipBehavior: Clip.antiAlias,
+                    child: InkWell(
+                      onTap: () {
+                        // TODO: عرض أقسام فرعية/خدمات هذا القسم
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text(tr('todo.soon'))),
+                        );
+                      },
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          if (s.imageUrl != null && s.imageUrl!.isNotEmpty)
+                            AspectRatio(
+                              aspectRatio: 16 / 9,
+                              child: Image.network(
+                                s.imageUrl!,
+                                fit: BoxFit.cover,
+                                errorBuilder: (c, e, st) => const ColoredBox(
+                                  color: Colors.black12,
+                                  child: Center(
+                                    child: Icon(Icons.image_not_supported),
+                                  ),
+                                ),
+                              ),
+                            )
+                          else
+                            const SizedBox(height: 6),
+
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(12, 10, 12, 6),
+                            child: Text(
+                              title,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: theme.textTheme.titleMedium,
+                            ),
+                          ),
+                          const Spacer(),
+                          Align(
+                            alignment: isRTL
+                                ? Alignment.centerLeft
+                                : Alignment.centerRight,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 12,
+                                vertical: 10,
+                              ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(
+                                    Icons.chevron_right,
+                                    color: colors.primary,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              );
+            },
+          ),
         ),
       ],
     );
   }
 }
 
-class _SectionItem extends StatelessWidget {
+class _AdminChip extends StatelessWidget {
   final IconData icon;
-  final Color color;
   final String label;
+  final Color background;
+  final Color foreground;
   final VoidCallback onTap;
 
-  const _SectionItem({
+  const _AdminChip({
     required this.icon,
-    required this.color,
     required this.label,
+    required this.background,
+    required this.foreground,
     required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      child: Container(
-        decoration: BoxDecoration(
-          color: color.withValues(alpha: 0.1),
-          borderRadius: BorderRadius.circular(12),
-        ),
-        padding: const EdgeInsets.all(12),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(icon, color: color, size: 28),
-            const SizedBox(height: 8),
-            Text(label, textAlign: TextAlign.center),
-          ],
+    return Material(
+      color: background,
+      borderRadius: BorderRadius.circular(12),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(12),
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(icon, size: 18, color: foreground),
+              const SizedBox(width: 8),
+              Text(
+                label,
+                style: TextStyle(
+                  color: foreground,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

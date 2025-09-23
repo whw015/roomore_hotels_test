@@ -63,6 +63,10 @@
     "greeting_basic": "Welcome {name}",
     "greeting_hotel": "at {hotel}",
     "room_number": "Room {number}",
+    "qr_prompt": "Scan the hotel code or enter it manually",
+    "hotel_linked": "Hotel linked successfully",
+    "hotel_cleared": "Hotel link cleared",
+    "change_hotel": "Change hotel",
     "sections": {
       "services": "Hotel Services",
       "stores": "Stores",
@@ -124,6 +128,12 @@
       "summary": "You checked in to {hotel}\\n on {date}.",
       "room": "Room number {room}",
       "wish": "We wish you a pleasant stay"
+    },
+      "admin": {
+      "employees": "Employees",
+      "workgroups": "Workgroups",
+      "guests": "Guests",
+      "sections": "Sections"
     }
   },
   "hotel_code": "Hotel code",
@@ -320,7 +330,8 @@
     "permission_denied": "You do not have permission to complete this action.",
     "required": "This field is required",
     "number": "Enter a valid number",
-    "not_found": "Not found"
+    "not_found": "Not found",
+    "no_hotel_selected": "No hotel selected"
   },
   "language_arabic": "Arabic",
   "language_english": "English",
@@ -370,5 +381,27 @@
   "confirm": "Confirm",
   "error.login_failed": "Login failed",
   "welcome": "Welcome",
-  "common.missingHotelId": "Hotel ID is missing"
+  "common.missingHotelId": "Hotel ID is missing",
+  "admin": {
+    "sections_services": {
+      "title": "Sections & Services",
+      "subtitle": "Manage root/child sections and services",
+      "empty": "No sections yet"
+    },
+    "employees": {
+      "title": "Employees",
+      "subtitle": "Manage hotel staff"
+    },
+    "workgroups": {
+      "title": "Workgroups",
+      "subtitle": "Team permissions & members"
+    },
+    "guests": {
+      "title": "Guests",
+      "subtitle": "Manage guest records"
+    }
+  },
+  "todo": {
+    "soon": "Coming soon…"
+  }
 }
