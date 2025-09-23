@@ -7,7 +7,4 @@ class AppColors {
   static const bg = Color(0xFFF7F7FB);
   static const text = Color(0xFF1F1F29);
   static const mutedPurple = Color(0xFFB38DDB);
-  static const Color primary = Color(0xFF2196F3);
-  static const Color white = Colors.white;
-  static const Color error = Colors.red;
 }

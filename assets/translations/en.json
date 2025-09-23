@@ -369,5 +369,6 @@
   "enter_qr_code": "Enter QR Code",
   "confirm": "Confirm",
   "error.login_failed": "Login failed",
-  "welcome": "Welcome"
+  "welcome": "Welcome",
+  "common.missingHotelId": "Hotel ID is missing"
 }

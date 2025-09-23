@@ -369,5 +369,6 @@
   "enter_qr_code": "أدخل رمز QR",
   "confirm": "تأكيد",
   "error.login_failed": "فشل تسجيل الدخول",
-  "welcome": "مرحبًا"
+  "welcome": "مرحبًا",
+  "common.missingHotelId": "معرف الفندق غير متوفر"
 }
