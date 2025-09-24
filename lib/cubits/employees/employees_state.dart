@@ -1,4 +1,5 @@
-part of 'employees_cubit.dart';
+import 'package:equatable/equatable.dart';
+import '../../data/models/employee.dart';
 
 sealed class EmployeesState extends Equatable {
   const EmployeesState();
@@ -6,20 +7,26 @@ sealed class EmployeesState extends Equatable {
   List<Object?> get props => [];
 }
 
+class EmployeesInitial extends EmployeesState {
+  const EmployeesInitial();
+}
+
 class EmployeesLoading extends EmployeesState {
   const EmployeesLoading();
+}
+
+class EmployeesLoaded extends EmployeesState {
+  final List<Employee> employees;
+  const EmployeesLoaded(this.employees);
+
+  @override
+  List<Object?> get props => [employees];
 }
 
 class EmployeesError extends EmployeesState {
   final String message;
   const EmployeesError(this.message);
+
   @override
   List<Object?> get props => [message];
-}
-
-class EmployeesData extends EmployeesState {
-  final List<dynamic> list; // استبدلها بنوع Employee لديك
-  const EmployeesData(this.list);
-  @override
-  List<Object?> get props => [list];
 }

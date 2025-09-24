@@ -1,28 +1,47 @@
-import 'package:equatable/equatable.dart';
+// lib/cubits/employees/employees_cubit.dart
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:equatable/equatable.dart';
+import '../../data/models/employee.dart';
 import '../../data/repositories/employee_repository.dart';
 
-part 'employees_state.dart';
+class EmployeesState extends Equatable {
+  final bool loading;
+  final List<Employee> list;
+  final String? error;
+
+  const EmployeesState({required this.loading, required this.list, this.error});
+
+  factory EmployeesState.initial() =>
+      const EmployeesState(loading: false, list: <Employee>[]);
+
+  EmployeesState copyWith({
+    bool? loading,
+    List<Employee>? list,
+    String? error,
+  }) {
+    return EmployeesState(
+      loading: loading ?? this.loading,
+      list: list ?? this.list,
+      error: error,
+    );
+  }
+
+  @override
+  List<Object?> get props => [loading, list, error];
+}
 
 class EmployeesCubit extends Cubit<EmployeesState> {
-  final String hotelId;
   final EmployeeRepository _repo;
 
-  // قاعدة الـ API الافتراضية (بدلاً من نسيان تمريرها)
-  static const String _defaultApiBaseUrl =
-      'https://brq25.com/roomore-api/api/public';
+  EmployeesCubit(this._repo) : super(EmployeesState.initial());
 
-  EmployeesCubit({required this.hotelId, String? baseUrl})
-    : _repo = EmployeeRepository(baseUrl: baseUrl ?? _defaultApiBaseUrl),
-      super(const EmployeesLoading());
-
-  Future<void> load() async {
-    emit(const EmployeesLoading());
+  Future<void> load({required String hotelId}) async {
+    emit(state.copyWith(loading: true, error: null));
     try {
-      final list = await _repo.fetchAll(hotelId: hotelId); // معرّفة في الامتداد
-      emit(EmployeesData(list));
+      final data = await _repo.fetchAll(hotelId: hotelId);
+      emit(state.copyWith(loading: false, list: data));
     } catch (e) {
-      emit(EmployeesError(e.toString()));
+      emit(state.copyWith(loading: false, error: e.toString()));
     }
   }
 }

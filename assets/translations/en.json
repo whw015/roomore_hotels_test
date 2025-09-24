@@ -34,7 +34,8 @@
   "actions": {
     "book": "Book Now",
     "order": "Order Now",
-    "retry": "Retry"
+    "retry": "Retry",
+    "save": "Save"
   },
   "details": {
     "no_desc": "No description available"
@@ -395,8 +396,30 @@
     },
     "employees": {
       "title": "Employees",
-      "subtitle": "Manage hotel staff"
-    },
+      "subtitle": "Manage hotel staff",
+      "empty": "No employees yet",
+      "add": {
+        "title": "Add Employee",
+        "success": "Employee added successfully"
+      },
+      "fields": {
+        "full_name": "Full name",
+        "email": "Email",
+        "phone": "Phone",
+        "gender": "Gender",
+        "gender_m": "Male",
+        "gender_f": "Female",
+        "nationality": "Nationality",
+        "nationality_hint": "e.g. SA, US",
+        "birthdate": "Birthdate",
+        "birthdate_pick": "Pick birthdate",
+        "workgroup": "Workgroup",
+        "job_title": "Job title",
+        "employee_no": "Employee No.",
+        "id_number": "ID number",
+        "avatar_url": "Avatar URL",
+        "is_active": "Active"
+      },
     "workgroups": {
       "title": "Workgroups",
       "subtitle": "Team permissions & members"
@@ -408,5 +431,11 @@
   },
   "todo": {
     "soon": "Coming soon…"
+  },
+  "validation": {
+    "required": "This field is required",
+    "min_chars": "Minimum {{0}} characters",
+    "email": "Invalid email address"
   }
+}
 }

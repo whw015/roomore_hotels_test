@@ -1,43 +1,51 @@
+// lib/data/repositories/employee_repository.dart
 import 'dart:async';
 
-class EmployeeProfile {
-  final bool isAdmin;
-  final List<String>
-  permissions; // ex: ['sections.read','sections.write','items.write','employees.manage']
-  final List<String> responsibleSectionIds; // أقسام مسؤول عنها
-  const EmployeeProfile({
-    required this.isAdmin,
-    required this.permissions,
-    required this.responsibleSectionIds,
-  });
-}
+import 'package:roomore_hotels_test/data/models/employee.dart';
+import 'package:roomore_hotels_test/data/repositories/api_repository.dart';
 
-class EmployeeRepository {
-  final String baseUrl;
-  const EmployeeRepository({required this.baseUrl});
+class EmployeeRepository extends ApiRepository {
+  // لا نمرر أي بارامترات للـ super لأن ApiRepository يضبط baseUrl افتراضيًا
+  EmployeeRepository();
 
-  /// التحقق من ان المستخدم موظف مرتبط بالفندق
-  Future<EmployeeProfile?> verifyEmployee({
-    required String hotelCode,
-    required String userUid,
+  Future<Employee> createEmployee({
+    required String hotelId,
+    required String fullName,
+    required String email,
+    required String phone,
+    required String gender,
+    required String nationality,
+    DateTime? birthDate,
+    String? idNumber,
+    String? avatarUrl,
+    String? title,
+    String? employeeNo,
+    required String workgroup,
+    required bool isActive,
   }) async {
-    // TODO: اربط بـ GET: $baseUrl/employees/me.php?code=$hotelCode&uid=$userUid
-    // مؤقتاً نرجّع admin علشان تكمل UI:
-    return const EmployeeProfile(
-      isAdmin: true,
-      permissions: [
-        'sections.read',
-        'sections.write',
-        'items.write',
-        'employees.manage',
-        'guests.manage',
-        'groups.manage',
-      ],
-      responsibleSectionIds: <String>[],
+    // لاحقًا اربطه بـ POST فعلي، الآن نُرجع كائن تجريبي
+    return Employee(
+      id: DateTime.now().millisecondsSinceEpoch.toString(),
+      hotelId: hotelId,
+      fullName: fullName,
+      email: email,
+      phone: phone,
+      gender: gender,
+      nationality: nationality,
+      birthDate: birthDate,
+      idNumber: idNumber,
+      avatarUrl: avatarUrl,
+      title: title,
+      employeeNo: employeeNo,
+      workgroup: workgroup,
+      isActive: isActive,
+      // ملاحظة: لا نمرر createdAt / updatedAt لأنها غير موجودة في الـ model لديك
     );
   }
 
   Future<List<Employee>> fetchAll({required String hotelId}) async {
+    // مثال ربط مستقبلاً:
+    // GET: $baseUrl/employees/list.php?code=$hotelId
     return <Employee>[];
   }
 }
