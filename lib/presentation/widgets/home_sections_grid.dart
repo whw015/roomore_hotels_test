@@ -1,11 +1,12 @@
 // lib/presentation/widgets/home_sections_grid.dart
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import '../../app_routes.dart';
 import '../../data/models/section.dart';
 import '../../data/repositories/services_repository.dart';
 
 class HomeSectionsGrid extends StatelessWidget {
-  final String hotelId; // يُمرَّر من HomeScreen بعد نجاح ربط الفندق
+  final String hotelId;
 
   const HomeSectionsGrid({super.key, required this.hotelId});
 
@@ -34,8 +35,10 @@ class HomeSectionsGrid extends StatelessWidget {
                 label: tr('home.admin.employees'),
                 background: colors.primaryContainer,
                 foreground: colors.onPrimaryContainer,
-                onTap: () =>
-                    Navigator.of(context).pushNamed('/admin/employees'),
+                onTap: () => Navigator.of(context).pushNamed(
+                  AppRoutes.adminEmployees,
+                  arguments: {'hotelId': hotelId},
+                ),
               ),
               _AdminChip(
                 icon: Icons.group_work_outlined,

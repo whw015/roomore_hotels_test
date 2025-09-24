@@ -92,7 +92,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 );
               },
             )
-          // يوجد فندق محدد → عرض الشبكة
           : HomeSectionsGrid(hotelId: _hotelId!),
     );
   }

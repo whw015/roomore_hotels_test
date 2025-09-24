@@ -1,10 +1,10 @@
-// lib/presentation/screens/admin/employees_admin_screen.dart
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:roomore_hotels_test/cubits/employees/employees_cubit.dart';
 import 'package:roomore_hotels_test/data/repositories/employee_repository.dart';
 
-import 'employee_add_screen.dart';
+import '../../../app_routes.dart';
 
 class EmployeesAdminScreen extends StatelessWidget {
   static const routeName = '/admin/employees';
@@ -18,7 +18,7 @@ class EmployeesAdminScreen extends StatelessWidget {
       create: (_) =>
           EmployeesCubit(EmployeeRepository())..load(hotelId: hotelId),
       child: Scaffold(
-        appBar: AppBar(title: Text('employees.title')),
+        appBar: AppBar(title: Text(tr('admin.employees.title'))),
         body: BlocBuilder<EmployeesCubit, EmployeesState>(
           builder: (context, state) {
             if (state.loading) {
@@ -28,7 +28,7 @@ class EmployeesAdminScreen extends StatelessWidget {
               return Center(child: Text(state.error!));
             }
             if (state.list.isEmpty) {
-              return const Center(child: Text('employees.empty'));
+              return Center(child: Text(tr('admin.employees.empty')));
             }
             return ListView.separated(
               itemCount: state.list.length,
@@ -56,8 +56,8 @@ class EmployeesAdminScreen extends StatelessWidget {
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             Navigator.of(context).pushNamed(
-              EmployeeAddScreen.routeName,
-              arguments: {'hotelId': hotelId},
+              AppRoutes.employeesAdd,
+              arguments: {'hotelId': hotelId}, // لا ترسل String فقط
             );
           },
           child: const Icon(Icons.add),

@@ -400,7 +400,8 @@
       "empty": "No employees yet",
       "add": {
         "title": "Add Employee",
-        "success": "Employee added successfully"
+        "success": "Employee added successfully",
+        "add":"Add New Employee"
       },
       "fields": {
         "full_name": "Full name",

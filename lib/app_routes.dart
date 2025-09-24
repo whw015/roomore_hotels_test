@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-// Screens
+import 'presentation/screens/admin/employee_add_screen.dart';
+import 'presentation/screens/admin/employees_admin_screen.dart';
 import 'presentation/screens/splash_screen.dart';
 import 'presentation/screens/language_selection_screen.dart';
 import 'presentation/screens/login_register_screen.dart';
@@ -8,22 +9,19 @@ import 'presentation/screens/home_screen.dart';
 import 'presentation/screens/admin/sections_services_admin_screen.dart';
 
 class AppRoutes {
-  // أسماء المسارات
   static const String splash = '/';
   static const String language = '/lang';
   static const String auth = '/auth';
   static const String home = '/home';
 
-  // Admin
   static const String adminSections = '/admin/sections';
   static const String adminEmployees = '/admin/employees';
   static const String adminWorkgroups = '/admin/workgroups';
   static const String adminGuests = '/admin/guests';
+  static const String employeesAdd = '/admin/employees/add';
 
-  // مفاتيح عامة (واحد فقط للنّافيجيتور لتجنّب GlobalKey duplication)
   static final GlobalKey<NavigatorState> navigatorKey =
       GlobalKey<NavigatorState>();
-
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
       case splash:
@@ -39,7 +37,6 @@ class AppRoutes {
 
       case adminSections:
         {
-          // نتوقّع arguments: { "hotelId": "<ID>" }
           final args = settings.arguments as Map<String, dynamic>?;
 
           final hotelId = (args?['hotelId'] as String?) ?? '';
@@ -48,10 +45,27 @@ class AppRoutes {
           );
         }
 
-      // شاشات إدارية لاحقًا (Placeholders مؤقتة عشان ما يطيح الراوتر)
       case adminEmployees:
+        final map = settings.arguments as Map?;
+        final hotelId = (map?['hotelId'] as String?) ?? '';
         return MaterialPageRoute(
-          builder: (_) => const _StubScreen(title: 'Employees (soon)'),
+          builder: (_) => EmployeesAdminScreen(hotelId: hotelId),
+          settings: settings,
+        );
+
+      case employeesAdd:
+        // يدعم الإرسال كسلسلة مباشرة أو كخريطة {hotelId: ...}
+        final args = settings.arguments;
+        String? hotelId;
+        if (args is String) {
+          hotelId = args;
+        } else if (args is Map) {
+          final v = args['hotelId'];
+          if (v is String) hotelId = v;
+        }
+        return MaterialPageRoute(
+          builder: (_) => EmployeeAddScreen(hotelId: hotelId ?? ''),
+          settings: settings,
         );
       case adminWorkgroups:
         return MaterialPageRoute(
@@ -68,7 +82,6 @@ class AppRoutes {
   }
 }
 
-// شاشات مساعدة مؤقتة
 class _StubScreen extends StatelessWidget {
   const _StubScreen({required this.title});
   final String title;
