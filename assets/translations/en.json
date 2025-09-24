@@ -318,7 +318,9 @@
     "noData": "No data",
     "noItems": "No items",
     "missingHotelId": "Cannot proceed: hotel id is missing.",
-    "permissionDenied": "You don't have permission to view this data."
+    "permissionDenied": "You don't have permission to view this data.",
+    "add": "Add",
+    "loading": "Loading"
   },
   "errors": {
     "hotel_not_found": "Sorry: This hotel does not exist. Please rescan the QR code or contact reception.",
@@ -386,7 +388,10 @@
     "sections_services": {
       "title": "Sections & Services",
       "subtitle": "Manage root/child sections and services",
-      "empty": "No sections yet"
+      "empty": "No sections yet",
+       "employees": { "title": "Employees", "no_name": "No name" },
+    "workgroups": { "title": "Workgroups" },
+    "guests": { "title": "Guests" }
     },
     "employees": {
       "title": "Employees",

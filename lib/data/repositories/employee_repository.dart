@@ -36,4 +36,8 @@ class EmployeeRepository {
       responsibleSectionIds: <String>[],
     );
   }
+
+  Future<List<Employee>> fetchAll({required String hotelId}) async {
+    return <Employee>[];
+  }
 }

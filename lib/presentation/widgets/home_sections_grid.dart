@@ -14,6 +14,7 @@ class HomeSectionsGrid extends StatelessWidget {
     final repo = ServicesRepository();
     final lang = context.locale.languageCode;
 
+    // ignore: unrelated_type_equality_checks
     final isRTL = Directionality.of(context) == TextDirection.RTL;
     final theme = Theme.of(context);
     final colors = theme.colorScheme;

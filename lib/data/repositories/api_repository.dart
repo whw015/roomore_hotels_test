@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class ApiRepository {
-  final String baseUrl = 'https://brq25.com/api';
+  final String baseUrl = 'https://brq25.com/roomore-api/api/public';
 
   Future<Map<String, dynamic>> checkEmployee(
     String userId,
