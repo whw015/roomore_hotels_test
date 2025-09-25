@@ -107,7 +107,10 @@ class HomeQrCenter extends StatelessWidget {
                     )
                   : Text(
                       tr('common.confirm'),
-                      style: const TextStyle(color: Colors.white),
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onSecondary,
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
             ),
             if (message != null) ...[

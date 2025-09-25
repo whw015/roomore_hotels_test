@@ -385,6 +385,7 @@
   "error.login_failed": "Login failed",
   "welcome": "Welcome",
   "common.missingHotelId": "Hotel ID is missing",
+  "common.refreshed": "Refreshed",
   "admin": {
     "sections_services": {
       "title": "Sections & Services",

@@ -102,7 +102,7 @@ class _LanguageButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         padding: const EdgeInsets.symmetric(vertical: 16),
         backgroundColor: AppColors.orange,
-        foregroundColor: Colors.white,
+        foregroundColor: Theme.of(context).colorScheme.onSecondary,
         textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
       ),
       onPressed: onTap,

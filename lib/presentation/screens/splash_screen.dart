@@ -82,7 +82,7 @@ class _SplashScreenState extends State<SplashScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const Text(
+            Text(
               'RooMore',
               style: TextStyle(
                 color: Colors.white,
@@ -91,7 +91,7 @@ class _SplashScreenState extends State<SplashScreen> {
               ),
             ),
             SizedBox(height: 10),
-            const Text(
+            Text(
               'Hotels Management',
               style: TextStyle(
                 color: Colors.white,

@@ -477,7 +477,7 @@ class _ModeButton extends StatelessWidget {
             ? Theme.of(context).colorScheme.primary
             : null,
         foregroundColor: isSelected
-            ? Colors.white
+            ? Theme.of(context).colorScheme.onPrimary
             : Theme.of(context).colorScheme.primary,
       ),
       onPressed: onTap,

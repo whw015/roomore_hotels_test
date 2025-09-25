@@ -1,8 +1,9 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:roomore_hotels_test/config/env.dart';
 
 class ApiRepository {
-  final String baseUrl = 'https://brq25.com/roomore-api/api/public';
+  final String baseUrl = Env.apiBaseUrl;
 
   Future<Map<String, dynamic>> checkEmployee(
     String userId,

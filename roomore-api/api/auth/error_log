@@ -1,0 +1,20 @@
+[06-Sep-2025 09:54:36 America/Boise] PHP Fatal error:  Uncaught Error: Class "Firebase\JWT\JWT" not found in /home1/fjgbsgmy/public_html/roomore-api/api/auth/register.php:63
+Stack trace:
+#0 {main}
+  thrown in /home1/fjgbsgmy/public_html/roomore-api/api/auth/register.php on line 63
+[06-Sep-2025 10:00:06 America/Boise] PHP Fatal error:  Uncaught Error: Class "Firebase\JWT\JWT" not found in /home1/fjgbsgmy/public_html/roomore-api/api/auth/register.php:63
+Stack trace:
+#0 {main}
+  thrown in /home1/fjgbsgmy/public_html/roomore-api/api/auth/register.php on line 63
+[06-Sep-2025 20:41:12 America/Boise] PHP Fatal error:  Uncaught Error: Class "Firebase\JWT\JWT" not found in /home1/fjgbsgmy/public_html/roomore-api/api/auth/login.php:17
+Stack trace:
+#0 {main}
+  thrown in /home1/fjgbsgmy/public_html/roomore-api/api/auth/login.php on line 17
+[06-Sep-2025 20:46:08 America/Boise] PHP Fatal error:  Uncaught Error: Class "Firebase\JWT\JWT" not found in /home1/fjgbsgmy/public_html/roomore-api/api/auth/login.php:17
+Stack trace:
+#0 {main}
+  thrown in /home1/fjgbsgmy/public_html/roomore-api/api/auth/login.php on line 17
+[06-Sep-2025 20:47:11 America/Boise] PHP Fatal error:  Uncaught Error: Class "Firebase\JWT\JWT" not found in /home1/fjgbsgmy/public_html/roomore-api/api/auth/login.php:17
+Stack trace:
+#0 {main}
+  thrown in /home1/fjgbsgmy/public_html/roomore-api/api/auth/login.php on line 17

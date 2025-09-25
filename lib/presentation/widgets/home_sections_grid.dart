@@ -2,6 +2,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import '../../app_routes.dart';
+import '../screens/interior_services_screen.dart';
 import '../../data/models/section.dart';
 import '../../data/repositories/services_repository.dart';
 
@@ -107,9 +108,12 @@ class HomeSectionsGrid extends StatelessWidget {
                     clipBehavior: Clip.antiAlias,
                     child: InkWell(
                       onTap: () {
-                        // TODO: عرض أقسام فرعية/خدمات هذا القسم
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text(tr('todo.soon'))),
+                        Navigator.of(context).pushNamed(
+                          InteriorServicesScreen.routeName,
+                          arguments: {
+                            'hotelId': hotelId,
+                            'rootSectionId': s.id,
+                          },
                         );
                       },
                       child: Column(

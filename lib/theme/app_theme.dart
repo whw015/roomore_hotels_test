@@ -10,7 +10,7 @@ final ColorScheme _lightScheme =
       primary: AppColors.purple,
       onPrimary: Colors.white,
       secondary: AppColors.orange,
-      onSecondary: Colors.white,
+      onSecondary: AppColors.text,
       surface: Colors.white, // نستخدم surface بدل background
       onSurface: AppColors.text,
     );
@@ -36,8 +36,9 @@ ThemeData buildLightTheme() {
       elevation: 0,
       centerTitle: true,
       backgroundColor: _lightScheme.surface,
-      foregroundColor: _lightScheme.onSurface,
-      titleTextStyle: textTheme.titleLarge,
+      foregroundColor: AppColors.text,
+      titleTextStyle: textTheme.titleLarge?.copyWith(color: AppColors.text),
+      iconTheme: const IconThemeData(color: AppColors.text),
     ),
     cardTheme: const CardThemeData(
       color: Colors.white,
@@ -92,6 +93,8 @@ ThemeData buildLightTheme() {
       prefixIconColor: AppColors.purple,
       suffixIconColor: AppColors.purple,
       labelStyle: const TextStyle(color: AppColors.purple),
+      floatingLabelStyle: const TextStyle(color: AppColors.purple),
+      hintStyle: const TextStyle(color: AppColors.text),
     ),
     iconTheme: const IconThemeData(color: AppColors.purple),
     dividerColor: AppColors.mutedPurple.withValues(alpha: .35),
@@ -110,7 +113,7 @@ ThemeData buildDarkTheme() {
         primary: AppColors.purple,
         onPrimary: Colors.white,
         secondary: AppColors.orange,
-        onSecondary: Colors.white,
+        onSecondary: AppColors.text,
         surface: surface,
         onSurface: Colors.white,
       );

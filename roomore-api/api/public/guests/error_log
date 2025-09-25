@@ -1,0 +1,1 @@
+[13-Sep-2025 21:57:27 America/Boise] PHP Warning:  require_once(/home1/fjgbsgmy/public_html/roomore-api/api/public/guests/../_bootstrap.php): Failed to open stream: No such file or directory in /home1/fjgbsgmy/public_html/roomore-api/api/public/guests/is_current.php on line 15

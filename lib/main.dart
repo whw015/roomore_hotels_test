@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'firebase_options.dart';
 import 'app_routes.dart';
+import 'theme/app_theme.dart';
 import 'data/repositories/home_repository.dart';
 import 'data/repositories/app_preferences_repository.dart';
 import 'data/repositories/auth_repository.dart';
@@ -48,11 +49,9 @@ class MyApp extends StatelessWidget {
         ],
         child: MaterialApp(
           title: 'RooMore',
-          theme: ThemeData(
-            useMaterial3: true,
-            colorSchemeSeed: const Color(0xFFFF7A00),
-            brightness: Brightness.light,
-          ),
+          theme: buildLightTheme(),
+          darkTheme: buildDarkTheme(),
+          themeMode: ThemeMode.system,
           locale: context.locale,
           supportedLocales: context.supportedLocales,
           localizationsDelegates: context.localizationDelegates,

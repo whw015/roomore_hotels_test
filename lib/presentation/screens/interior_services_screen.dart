@@ -7,10 +7,7 @@ import '../../data/models/section.dart';
 import '../../data/repositories/services_repository.dart';
 import 'service_item_details_screen.dart';
 
-class InteriorServicesArgs {
-  final String hotelId;
-  const InteriorServicesArgs({required this.hotelId, required String title});
-}
+// Standardized routing: use Map<String, dynamic> for arguments
 
 class InteriorServicesScreen extends StatefulWidget {
   const InteriorServicesScreen({super.key});
@@ -73,9 +70,9 @@ class _InteriorServicesScreenState extends State<InteriorServicesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final args =
-        ModalRoute.of(context)?.settings.arguments as InteriorServicesArgs?;
-    final hotelId = args?.hotelId;
+    final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    final String? hotelId = args?['hotelId'] as String?;
+    final String? initialRootId = args?['rootSectionId'] as String?;
 
     if (hotelId == null) {
       return Scaffold(
@@ -115,7 +112,14 @@ class _InteriorServicesScreenState extends State<InteriorServicesScreen> {
                 return Center(child: Text(tr('common.noData')));
               }
 
-              selectedRootId ??= visibleRoots.first.id;
+              if (selectedRootId == null) {
+                if (initialRootId != null &&
+                    visibleRoots.any((r) => r.id == initialRootId)) {
+                  selectedRootId = initialRootId;
+                } else {
+                  selectedRootId = visibleRoots.first.id;
+                }
+              }
               final selectedRoot = visibleRoots.firstWhere(
                 (r) => r.id == selectedRootId,
                 orElse: () => visibleRoots.first,
@@ -326,10 +330,10 @@ class _InteriorServicesScreenState extends State<InteriorServicesScreen> {
                                         Navigator.pushNamed(
                                           context,
                                           ServiceItemDetailsScreen.routeName,
-                                          arguments: ServiceItemDetailsArgs(
-                                            hotelId: hotelId,
-                                            item: it,
-                                          ),
+                                          arguments: {
+                                            'hotelId': hotelId,
+                                            'item': it,
+                                          },
                                         );
                                       },
                                     );

@@ -8,11 +8,7 @@ import '../../data/models/localized_text.dart';
 // في حال احتجت أي توسيعات لاحقًا
 
 // ========= Args =========
-class ServiceItemDetailsArgs {
-  final String hotelId;
-  final Item item;
-  const ServiceItemDetailsArgs({required this.hotelId, required this.item});
-}
+// Standardized routing: use Map<String, dynamic> for arguments
 
 // ========= Cubit (State Management) =========
 class ItemDetailsState {
@@ -48,16 +44,14 @@ class ServiceItemDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final args =
-        ModalRoute.of(context)?.settings.arguments as ServiceItemDetailsArgs?;
-    if (args == null) {
+    final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    if (args == null || args['item'] == null) {
       return Scaffold(
         appBar: AppBar(title: Text(tr('common.error'))),
         body: Center(child: Text(tr('common.missingHotelId'))),
       );
     }
-
-    final item = args.item;
+    final Item item = args['item'] as Item;
     final title = _txt(item.name, context);
     final description = (item.description == null)
         ? tr('details.no_desc')
