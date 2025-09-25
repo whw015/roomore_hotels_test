@@ -1,4 +1,4 @@
-﻿import 'package:easy_localization/easy_localization.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -15,7 +15,8 @@ class EmployeesAdminScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => EmployeesCubit(EmployeeRepository())..load(hotelId: hotelId),
+      create: (_) =>
+          EmployeesCubit(EmployeeRepository())..load(hotelId: hotelId),
       child: Scaffold(
         appBar: AppBar(title: Text(tr('admin.employees.title'))),
         body: Builder(
@@ -25,13 +26,13 @@ class EmployeesAdminScreen extends StatelessWidget {
               if (!innerContext.mounted) return;
               final err = innerContext.read<EmployeesCubit>().state.error;
               final msg = err ?? tr('common.refreshed');
-              ScaffoldMessenger.of(innerContext)
-                  .showSnackBar(SnackBar(content: Text(msg)));
+              ScaffoldMessenger.of(
+                innerContext,
+              ).showSnackBar(SnackBar(content: Text(msg)));
             },
             child: BlocBuilder<EmployeesCubit, EmployeesState>(
               builder: (context, state) {
                 if (state.loading) {
-                  // Keep only RefreshIndicator spinner visible
                   return ListView(
                     physics: const AlwaysScrollableScrollPhysics(),
                     children: const [SizedBox(height: 0)],
@@ -66,8 +67,10 @@ class EmployeesAdminScreen extends StatelessWidget {
                       leading: CircleAvatar(
                         backgroundImage: (avatar != null && avatar.isNotEmpty)
                             ? NetworkImage(avatar)
-                            : const AssetImage('assets/images/avatar_placeholder.png')
-                                as ImageProvider,
+                            : const AssetImage(
+                                    'assets/images/avatar_placeholder.png',
+                                  )
+                                  as ImageProvider,
                         child: (avatar == null || avatar.isEmpty)
                             ? const Icon(Icons.person)
                             : null,
@@ -77,14 +80,28 @@ class EmployeesAdminScreen extends StatelessWidget {
                             ? tr('admin.sections_services.employees.no_name')
                             : e.fullName,
                       ),
-                      subtitle: Text([
-                        if (e.title != null && e.title!.isNotEmpty) e.title!,
-                        e.email,
-                        e.phone,
-                      ].join(' · ')),
+                      subtitle: Text(
+                        [
+                          if (e.title != null && e.title!.isNotEmpty) e.title!,
+                          e.email,
+                          e.phone,
+                        ].join(' � '),
+                      ),
                       trailing: e.isActive
                           ? const Icon(Icons.verified, color: Colors.green)
                           : const Icon(Icons.block, color: Colors.red),
+                      onTap: () async {
+                        final result = await Navigator.of(context).pushNamed(
+                          '/admin/employees/details',
+                          arguments: {'employee': e},
+                        );
+                        if (!context.mounted) return;
+                        if (result is Map &&
+                            (result['updated'] != null ||
+                                result['deleted'] == true)) {
+                          context.read<EmployeesCubit>().load(hotelId: hotelId);
+                        }
+                      },
                     );
                   },
                 );
@@ -111,4 +128,3 @@ class EmployeesAdminScreen extends StatelessWidget {
     );
   }
 }
-

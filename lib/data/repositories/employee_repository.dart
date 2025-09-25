@@ -228,8 +228,67 @@ class EmployeeRepository extends ApiRepository {
       'employeeNo':
           json['employeeNo'] ?? json['employee_no'] ?? json['employee_id'],
       'workgroup': (json['workgroup'] ?? '').toString(),
-      'isActive':
-          json['isActive'] ?? json['is_active'] ?? json['active'] ?? true,
+      'isActive': json['isActive'] ?? json['is_active'] ?? json['active'] ??
+          (json['status'] != null
+              ? (json['status'].toString() == 'active' || json['status'].toString() == '1' || json['status'].toString().toLowerCase() == 'true')
+              : true),
     };
   }
+  Future<Employee> updateEmployee({
+    required String id,
+    required String hotelId,
+    required String fullName,
+    required String email,
+    required String phone,
+    required String gender,
+    required String nationality,
+    DateTime? birthDate,
+    String? idNumber,
+    String? avatarUrl,
+    String? title,
+    String? employeeNo,
+    required String workgroup,
+    required bool isActive,
+  }) async {
+    final uri = Uri.parse('$baseUrl/employees/update_employee.php');
+    final payload = <String, dynamic>{
+      'id': id,
+      'hotel_id': hotelId,
+      'name': fullName,
+      'email': email,
+      'phone': phone,
+      'gender': gender,
+      'nationality': nationality,
+      if (birthDate != null) 'dob': birthDate.toIso8601String(),
+      if (idNumber != null) 'id_number': idNumber,
+      if (avatarUrl != null) 'avatar_url': avatarUrl,
+      if (title != null) 'job_title': title,
+      if (employeeNo != null) 'employee_id': employeeNo,
+      'workgroup': workgroup,
+      'is_active': isActive ? 1 : 0,
+    };
+    final resp = await http.post(uri, headers: {'Content-Type': 'application/json'}, body: json.encode(payload));
+    if (resp.statusCode != 200) {
+      throw Exception('Failed to update employee (${resp.statusCode})');
+    }
+    final data = json.decode(resp.body);
+    final map = (data is Map && data['employee'] is Map)
+        ? Map<String, dynamic>.from(data['employee'] as Map)
+        : (data is Map)
+            ? Map<String, dynamic>.from(data)
+            : <String, dynamic>{};
+    final normalized = _normalizeEmployeeJson(map);
+    return Employee.fromJson(normalized);
+  }
+
+  Future<void> deleteEmployee({required String id}) async {
+    final uri = Uri.parse('$baseUrl/employees/delete_employee.php');
+    final resp = await http.post(uri, headers: {'Content-Type': 'application/json'}, body: json.encode({'id': id}));
+    if (resp.statusCode != 200) {
+      throw Exception('Failed to delete employee (${resp.statusCode})');
+    }
+  }
 }
+
+
+

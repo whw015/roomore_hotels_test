@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:roomore_hotels_test/presentation/screens/admin/employee_add_screen.dart';
+import 'package:roomore_hotels_test/presentation/screens/admin/employee_details_screen.dart';
 import 'package:roomore_hotels_test/presentation/screens/admin/employees_admin_screen.dart';
 import 'package:roomore_hotels_test/presentation/screens/splash_screen.dart';
 import 'package:roomore_hotels_test/presentation/screens/language_selection_screen.dart';
@@ -50,32 +51,36 @@ class AppRoutes {
         );
 
       case adminSections:
-        {
-          final args = settings.arguments as Map<String, dynamic>?;
-
-          final hotelId = (args?['hotelId'] as String?) ?? '';
-          return MaterialPageRoute(
-            builder: (_) => SectionsServicesAdminScreen(hotelId: hotelId),
-          );
-        }
+        final argsA = settings.arguments as Map<String, dynamic>?;
+        final hotelIdA = (argsA?['hotelId'] as String?) ?? '';
+        return MaterialPageRoute(
+          builder: (_) => SectionsServicesAdminScreen(hotelId: hotelIdA),
+        );
 
       case adminEmployees:
-        final args = settings.arguments as Map<String, dynamic>?;
-        final hotelId = (args?['hotelId'] as String?) ?? '';
+        final argsB = settings.arguments as Map<String, dynamic>?;
+        final hotelIdB = (argsB?['hotelId'] as String?) ?? '';
         return MaterialPageRoute(
-          builder: (_) => EmployeesAdminScreen(hotelId: hotelId),
+          builder: (_) => EmployeesAdminScreen(hotelId: hotelIdB),
           settings: settings,
         );
 
       case employeesAdd:
-        // يدعم الإرسال كسلسلة مباشرة أو كخريطة {hotelId: ...}
-        final args = settings.arguments as Map<String, dynamic>?;
-        final hotelId = (args?['hotelId'] as String?) ?? '';
-
+        final argsC = settings.arguments as Map<String, dynamic>?;
+        final hotelIdC = (argsC?['hotelId'] as String?) ?? '';
         return MaterialPageRoute(
-          builder: (_) => EmployeeAddScreen(hotelId: hotelId),
+          builder: (_) => EmployeeAddScreen(hotelId: hotelIdC),
           settings: settings,
         );
+
+      case EmployeeDetailsScreen.routeName:
+        final argsD = settings.arguments as Map<String, dynamic>?;
+        final employee = argsD?['employee'];
+        return MaterialPageRoute(
+          builder: (_) => EmployeeDetailsScreen(employee: employee),
+          settings: settings,
+        );
+
       case adminWorkgroups:
         return MaterialPageRoute(
           builder: (_) => const _StubScreen(title: 'Workgroups (soon)'),
@@ -99,7 +104,7 @@ class _StubScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(title)),
-      body: const Center(child: Text('Coming soon…')),
+      body: const Center(child: Text('Coming soon�')),
     );
   }
 }
@@ -112,5 +117,3 @@ class _UnknownRouteScreen extends StatelessWidget {
     return const Scaffold(body: Center(child: Text('Unknown route')));
   }
 }
-
-

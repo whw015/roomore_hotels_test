@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Sep 24, 2025 at 11:14 AM
+-- Generation Time: Sep 25, 2025 at 12:57 PM
 -- Server version: 8.0.43-34
 -- PHP Version: 8.3.25
 
@@ -208,9 +208,35 @@ CREATE TABLE `hotel_employees` (
   `phone` varchar(40) DEFAULT NULL,
   `password_hash` varchar(255) DEFAULT NULL,
   `status` enum('active','inactive') NOT NULL DEFAULT 'active',
+  `avatar_url` varchar(512) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `gender` varchar(10) DEFAULT NULL,
+  `nationality` varchar(4) DEFAULT NULL,
+  `dob` date DEFAULT NULL,
+  `id_number` varchar(64) DEFAULT NULL,
+  `job_title` varchar(120) DEFAULT NULL,
+  `employee_id` varchar(64) DEFAULT NULL,
+  `workgroup` varchar(64) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `hotel_employees`
+--
+
+INSERT INTO `hotel_employees` (`id`, `hotel_id`, `name`, `email`, `phone`, `password_hash`, `status`, `avatar_url`, `created_at`, `updated_at`, `gender`, `nationality`, `dob`, `id_number`, `job_title`, `employee_id`, `workgroup`) VALUES
+(1, 2, 'Test Employee 001', 'test001@roomore.dev', '0551796199', NULL, 'active', NULL, '2025-09-25 07:27:42', '2025-09-25 07:27:42', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(2, 1, 'Test Employee 726115', 'test726115@roomore.dev', '0551726115', NULL, 'active', NULL, '2025-09-25 07:36:15', '2025-09-25 07:36:15', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(3, 1, 'Test Employee 821256', 'test821256@roomore.dev', '0551821256', NULL, 'active', NULL, '2025-09-25 07:37:26', '2025-09-25 07:37:26', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(4, 1, 'Alice Johnson', 'alice@example.com', '0551000001', NULL, 'active', 'https://brq25.com/roomore-api/api/uploads/storage/2952bd6f942d96f7.jpg', '2025-09-25 07:40:05', '2025-09-25 18:57:05', 'male', 'SA', '2000-09-25', '٦٤٦٦', 'لا ابال', '١٢٣٤', 'قلىىىىى'),
+(5, 2, 'Bob Smith', 'bob@example.com', '0551000002', NULL, 'inactive', NULL, '2025-09-25 07:40:05', '2025-09-25 07:40:05', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(6, 2, 'Carlos Diaz', 'carlos@example.com', '0551000003', NULL, 'active', NULL, '2025-09-25 07:40:05', '2025-09-25 07:40:05', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(7, 2, 'Dana Lee', 'dana@example.com', '0551000004', NULL, 'active', NULL, '2025-09-25 07:40:05', '2025-09-25 07:40:05', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(8, 2, 'Ethan Brown', 'ethan@example.com', '0551000005', NULL, 'inactive', NULL, '2025-09-25 07:40:05', '2025-09-25 07:40:05', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(11, 2, 'Test Employee 697583', 'test697583@roomore.dev', '0551697583', NULL, 'active', NULL, '2025-09-25 08:41:55', '2025-09-25 08:41:55', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(12, 2, 'Test Employee 92368', 'test92368@roomore.dev', '0551092368', NULL, 'active', NULL, '2025-09-25 09:05:03', '2025-09-25 09:05:03', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(13, 2, 'Test Employee 758840', 'test758840@roomore.dev', '0551758840', NULL, 'active', NULL, '2025-09-25 14:33:08', '2025-09-25 14:33:08', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(14, 2, 'Test Employee 905249', 'test905249@roomore.dev', '0551905249', NULL, 'active', 'https://brq25.com/roomore-api/api/uploads/storage/e8c99df0af641e2e.png', '2025-09-25 15:08:50', '2025-09-25 15:08:50', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -910,7 +936,7 @@ ALTER TABLE `hotels`
 -- AUTO_INCREMENT for table `hotel_employees`
 --
 ALTER TABLE `hotel_employees`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `hotel_guests`
