@@ -4,6 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:roomore_hotels_test/utils/countries.dart';
+import 'package:roomore_hotels_test/utils/ui.dart';
 
 import '../../../data/models/employee.dart';
 import '../../../data/repositories/employee_repository.dart';
@@ -33,6 +34,7 @@ class _EmployeeDetailsScreenState extends State<EmployeeDetailsScreen> {
   String _workgroup = 'staff';
   String? _avatarUrl;
   final _picker = ImagePicker();
+  bool _saving = false;
 
   Future<void> _pickBirthdate() async {
     final now = DateTime.now();
@@ -103,11 +105,18 @@ class _EmployeeDetailsScreenState extends State<EmployeeDetailsScreen> {
         title: Text(tr('admin.employees.title')),
         actions: [
           IconButton(
-            icon: const Icon(Icons.save),
+            icon: _saving
+                ? const SizedBox(
+                    width: 20,
+                    height: 20,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  )
+                : const Icon(Icons.save),
             tooltip: tr('actions.save'),
             onPressed: () async {
-              if (!_formKey.currentState!.validate()) return;
+              if (_saving || !_formKey.currentState!.validate()) return;
               try {
+                setState(() => _saving = true);
                 final updated = await repo.updateEmployee(
                   id: e.id,
                   hotelId: e.hotelId,
@@ -125,15 +134,13 @@ class _EmployeeDetailsScreenState extends State<EmployeeDetailsScreen> {
                   isActive: _isActive,
                 );
                 if (!context.mounted) return;
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(tr('common.refreshed'))),
-                );
+                showSuccessSnack(context, tr('common.refreshed'));
                 Navigator.of(context).pop({'updated': updated});
               } catch (err) {
                 if (!context.mounted) return;
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(err.toString())),
-                );
+                showErrorSnack(context, err.toString());
+              } finally {
+                if (mounted) setState(() => _saving = false);
               }
             },
           ),

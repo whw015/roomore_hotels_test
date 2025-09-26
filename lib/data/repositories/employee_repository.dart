@@ -272,6 +272,9 @@ class EmployeeRepository extends ApiRepository {
       throw Exception('Failed to update employee (${resp.statusCode})');
     }
     final data = json.decode(resp.body);
+    if (data is Map && data['ok'] == false && data['error'] is String) {
+      throw Exception(data['error'].toString());
+    }
     final map = (data is Map && data['employee'] is Map)
         ? Map<String, dynamic>.from(data['employee'] as Map)
         : (data is Map)
@@ -287,6 +290,12 @@ class EmployeeRepository extends ApiRepository {
     if (resp.statusCode != 200) {
       throw Exception('Failed to delete employee (${resp.statusCode})');
     }
+    try {
+      final data = json.decode(resp.body);
+      if (data is Map && data['ok'] == false && data['error'] is String) {
+        throw Exception(data['error'].toString());
+      }
+    } catch (_) {}
   }
 }
 

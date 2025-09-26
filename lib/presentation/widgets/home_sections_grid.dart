@@ -54,7 +54,7 @@ class HomeSectionsGrid extends StatelessWidget {
                 label: tr('home.admin.guests'),
                 background: colors.tertiaryContainer,
                 foreground: colors.onTertiaryContainer,
-                onTap: () => Navigator.of(context).pushNamed('/admin/guests'),
+                onTap: () => Navigator.of(context).pushNamed('/admin/guests', arguments: {'hotelId': hotelId}),
               ),
               _AdminChip(
                 icon: Icons.folder_open,

@@ -10,6 +10,9 @@ import 'package:roomore_hotels_test/presentation/screens/home_screen.dart';
 import 'package:roomore_hotels_test/presentation/screens/admin/sections_services_admin_screen.dart';
 import 'package:roomore_hotels_test/presentation/screens/interior_services_screen.dart';
 import 'package:roomore_hotels_test/presentation/screens/service_item_details_screen.dart';
+import 'package:roomore_hotels_test/presentation/screens/admin/guests_admin_screen.dart';
+import 'package:roomore_hotels_test/presentation/screens/admin/guest_add_screen.dart';
+import 'package:roomore_hotels_test/presentation/screens/admin/guest_details_screen.dart';
 
 class AppRoutes {
   static const String splash = '/';
@@ -86,8 +89,27 @@ class AppRoutes {
           builder: (_) => const _StubScreen(title: 'Workgroups (soon)'),
         );
       case adminGuests:
+        final argsG = settings.arguments as Map<String, dynamic>?;
+        final hotelIdG = (argsG?['hotelId'] as String?) ?? '';
         return MaterialPageRoute(
-          builder: (_) => const _StubScreen(title: 'Guests (soon)'),
+          builder: (_) => GuestsAdminScreen(hotelId: hotelIdG),
+          settings: settings,
+        );
+      case '/admin/guests/add':
+        final argsGA = settings.arguments as Map<String, dynamic>?;
+        final hotelIdGA = (argsGA?['hotelId'] as String?) ?? '';
+        return MaterialPageRoute(
+          builder: (_) => GuestAddScreen(hotelId: hotelIdGA),
+          settings: settings,
+        );
+      case '/admin/guests/details':
+        final argsGD = settings.arguments as Map<String, dynamic>?;
+        return MaterialPageRoute(
+          builder: (_) => GuestDetailsScreen(
+            guest: argsGD?['guest'],
+            hotelId: (argsGD?['hotelId'] as String?) ?? '',
+          ),
+          settings: settings,
         );
 
       default:
