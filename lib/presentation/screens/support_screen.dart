@@ -11,9 +11,14 @@ class SupportScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('المساعدة و الدعم'),
       ),
-      body: ListView(
-        padding: const EdgeInsets.all(24),
-        children: [
+      body: ListTileTheme(
+        data: ListTileThemeData(
+          textColor: theme.colorScheme.onSurface,
+          iconColor: theme.colorScheme.onSurface,
+        ),
+        child: ListView(
+          padding: const EdgeInsets.all(24),
+          children: [
           Card(
             child: ListTile(
               leading: const Icon(Icons.chat_bubble_outline),
@@ -53,6 +58,7 @@ class SupportScreen extends StatelessWidget {
             style: theme.textTheme.bodyMedium,
           ),
         ],
+      ),
       ),
     );
   }

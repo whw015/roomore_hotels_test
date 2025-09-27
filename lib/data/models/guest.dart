@@ -29,7 +29,7 @@ class Guest {
     return Guest(
       id: (json['id'] ?? json['guest_id'] ?? '').toString(),
       hotelId: (json['hotel_id'] ?? json['hotelId'] ?? '').toString(),
-      fullName: (json['name'] ?? json['full_name'] ?? json['fullName'] ?? '').toString(),
+      fullName: (json['name'] ?? json['full_name'] ?? json['fullName'] ?? json['name_ar'] ?? json['name_en'] ?? '').toString(),
       email: (json['email'] ?? '').toString(),
       phone: (json['phone'] ?? '').toString(),
       gender: (json['gender'] ?? '').toString(),
@@ -59,4 +59,3 @@ class Guest {
         'employee_id': employeeId,
       };
 }
-

@@ -81,28 +81,61 @@ class _GuestAddScreenState extends State<GuestAddScreen> {
                           : () async {
                               setState(() => _loading = true);
                               try {
-                                final list = await _repo.fetchAll(hotelId: widget.hotelId);
                                 final email = _email.text.trim().toLowerCase();
                                 final phone = _phone.text.trim();
+                                List<Guest> list = const [];
+                                if (email.isNotEmpty) {
+                                  list = await _repo.fetchAll(
+                                    hotelId: widget.hotelId,
+                                    email: email,
+                                  );
+                                  if (list.isEmpty && phone.isNotEmpty) {
+                                    list = await _repo.fetchAll(
+                                      hotelId: widget.hotelId,
+                                      phone: phone,
+                                    );
+                                  }
+                                } else if (phone.isNotEmpty) {
+                                  list = await _repo.fetchAll(
+                                    hotelId: widget.hotelId,
+                                    phone: phone,
+                                  );
+                                } else {
+                                  list = await _repo.fetchAll(
+                                    hotelId: widget.hotelId,
+                                  );
+                                }
                                 final g = list.firstWhere(
-                                  (x) => (email.isNotEmpty && x.email.toLowerCase() == email) ||
-                                          (phone.isNotEmpty && x.phone == phone),
-                                  orElse: () => list.isNotEmpty ? list.first : throw Exception('Guest not found'),
+                                  (x) =>
+                                      (email.isNotEmpty &&
+                                          x.email.toLowerCase() == email) ||
+                                      (phone.isNotEmpty && x.phone == phone),
+                                  orElse: () => list.isNotEmpty
+                                      ? list.first
+                                      : throw Exception('Guest not found'),
                                 );
                                 _selected = g;
                                 // Try to fetch active status if backend supports it
-                                _active = await _repo.isGuestActive(guestId: g.id, hotelId: widget.hotelId);
+                                _active = await _repo.isGuestActive(
+                                  guestId: g.id,
+                                  hotelId: widget.hotelId,
+                                );
                                 if (!context.mounted) return;
                                 setState(() {});
                               } catch (e) {
                                 if (!context.mounted) return;
-                                showErrorSnack(context, e.toString());
+                                final msg = friendlyErrorMessage(e, context);
+                                showErrorSnack(context, msg);
                               } finally {
                                 if (mounted) setState(() => _loading = false);
                               }
                             },
                       icon: _loading
-                          ? const SizedBox(width: 18, height: 18, child: CircularProgressIndicator(strokeWidth: 2))
+                          ? const SizedBox(
+                              width: 18,
+                              height: 18,
+                              child: CircularProgressIndicator(strokeWidth: 2),
+                            )
                           : const Icon(Icons.search),
                       label: Text(tr('home.search_tap')),
                     ),
@@ -116,14 +149,28 @@ class _GuestAddScreenState extends State<GuestAddScreen> {
                 Card(
                   child: Padding(
                     padding: const EdgeInsets.all(12),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Text(_selected!.fullName, style: Theme.of(context).textTheme.titleMedium),
-                        const SizedBox(height: 6),
-                        Text(_selected!.email),
-                        Text(_selected!.phone),
-                      ],
+                    child: Builder(
+                      builder: (ctx) {
+                        final onSurface = Theme.of(ctx).colorScheme.onSurface;
+                        final titleStyle = Theme.of(
+                          ctx,
+                        ).textTheme.titleMedium?.copyWith(color: onSurface);
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Text(_selected!.fullName, style: titleStyle),
+                            const SizedBox(height: 6),
+                            Text(
+                              _selected!.email,
+                              style: TextStyle(color: onSurface),
+                            ),
+                            Text(
+                              _selected!.phone,
+                              style: TextStyle(color: onSurface),
+                            ),
+                          ],
+                        );
+                      },
                     ),
                   ),
                 ),
@@ -150,15 +197,38 @@ class _GuestAddScreenState extends State<GuestAddScreen> {
                           setState(() => _loading = true);
                           try {
                             if (_active == true) {
-                              await _repo.checkOutGuest(hotelId: widget.hotelId, guestId: _selected!.id);
+                              await _repo.checkOutGuest(
+                                hotelId: widget.hotelId,
+                                guestId: _selected!.id,
+                              );
                               _active = false;
                               if (!context.mounted) return;
-                              showSuccessSnack(context, tr('home.actions.checkout'));
+                              final isAr = Localizations.localeOf(
+                                context,
+                              ).languageCode.startsWith('ar');
+                              showSuccessSnack(
+                                context,
+                                isAr
+                                    ? 'تم تسجيل مغادرة النزيل بنجاح'
+                                    : 'Guest checked out successfully',
+                              );
                             } else {
-                              await _repo.checkInGuest(hotelId: widget.hotelId, guestId: _selected!.id, roomNumber: _room.text.trim());
+                              await _repo.checkInGuest(
+                                hotelId: widget.hotelId,
+                                guestId: _selected!.id,
+                                roomNumber: _room.text.trim(),
+                              );
                               _active = true;
                               if (!context.mounted) return;
-                              showSuccessSnack(context, tr('home.actions.checkout_in_progress'));
+                              final isAr = Localizations.localeOf(
+                                context,
+                              ).languageCode.startsWith('ar');
+                              showSuccessSnack(
+                                context,
+                                isAr
+                                    ? 'تم تسجيل دخول النزيل بنجاح'
+                                    : 'Guest checked in successfully',
+                              );
                             }
                             if (mounted) setState(() {});
                           } catch (e) {
@@ -168,7 +238,11 @@ class _GuestAddScreenState extends State<GuestAddScreen> {
                             if (mounted) setState(() => _loading = false);
                           }
                         },
-                  child: Text((_active ?? false) ? tr('home.actions.checkout') : tr('common.confirm')),
+                  child: Text(
+                    (_active ?? false)
+                        ? tr('home.actions.checkout')
+                        : tr('common.confirm'),
+                  ),
                 ),
             ],
           ),

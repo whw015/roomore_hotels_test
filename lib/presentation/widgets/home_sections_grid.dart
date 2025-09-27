@@ -96,17 +96,20 @@ class HomeSectionsGrid extends StatelessWidget {
                   crossAxisCount: gridCount,
                   crossAxisSpacing: 12,
                   mainAxisSpacing: 12,
-                  childAspectRatio: isRTL ? 1.05 : 1.05,
+                  childAspectRatio: 1,
                 ),
                 itemCount: sections.length,
                 itemBuilder: (context, index) {
                   final s = sections[index];
                   final title = s.name.resolve(lang);
 
-                  return Card(
-                    elevation: 1,
-                    clipBehavior: Clip.antiAlias,
+                  final spec = _iconSpecFor(title, index, colors);
+                  return Material(
+                    elevation: 3,
+                    color: Theme.of(context).cardColor,
+                    borderRadius: BorderRadius.circular(18),
                     child: InkWell(
+                      borderRadius: BorderRadius.circular(18),
                       onTap: () {
                         Navigator.of(context).pushNamed(
                           InteriorServicesScreen.routeName,
@@ -116,57 +119,33 @@ class HomeSectionsGrid extends StatelessWidget {
                           },
                         );
                       },
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          if (s.imageUrl != null && s.imageUrl!.isNotEmpty)
-                            AspectRatio(
-                              aspectRatio: 16 / 9,
-                              child: Image.network(
-                                s.imageUrl!,
-                                fit: BoxFit.cover,
-                                errorBuilder: (c, e, st) => const ColoredBox(
-                                  color: Colors.black12,
-                                  child: Center(
-                                    child: Icon(Icons.image_not_supported),
-                                  ),
-                                ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              width: 56,
+                              height: 56,
+                              decoration: BoxDecoration(
+                                color: spec.bg,
+                                shape: BoxShape.circle,
                               ),
-                            )
-                          else
-                            const SizedBox(height: 6),
-
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(12, 10, 12, 6),
-                            child: Text(
+                              child: Icon(spec.icon, color: spec.fg, size: 28),
+                            ),
+                            const SizedBox(height: 14),
+                            Text(
                               title,
-                              maxLines: 1,
+                              textAlign: TextAlign.center,
+                              style: theme.textTheme.titleMedium?.copyWith(
+                                color: colors.onSurface,
+                                fontWeight: FontWeight.w600,
+                              ),
+                              maxLines: 2,
                               overflow: TextOverflow.ellipsis,
-                              style: theme.textTheme.titleMedium,
                             ),
-                          ),
-                          const Spacer(),
-                          Align(
-                            alignment: isRTL
-                                ? Alignment.centerLeft
-                                : Alignment.centerRight,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 12,
-                                vertical: 10,
-                              ),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Icon(
-                                    Icons.chevron_right,
-                                    color: colors.primary,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   );
@@ -178,6 +157,50 @@ class HomeSectionsGrid extends StatelessWidget {
       ],
     );
   }
+}
+
+class _IconSpec {
+  final IconData icon;
+  final Color fg;
+  final Color bg;
+  _IconSpec(this.icon, this.fg, this.bg);
+}
+
+_IconSpec _iconSpecFor(String title, int index, ColorScheme scheme) {
+  final t = title.toLowerCase();
+  // Arabic/English keyword guesses
+  if (t.contains('فندق') || t.contains('hotel')) {
+    return _IconSpec(Icons.room_service_outlined, const Color(0xFF1877F2), const Color(0x331877F2));
+  }
+  if (t.contains('متاجر') || t.contains('stores') || t.contains('shop')) {
+    return _IconSpec(Icons.shopping_cart_outlined, const Color(0xFF2E7D32), const Color(0x332E7D32));
+  }
+  if (t.contains('تأجير') || t.contains('سيارات') || t.contains('cars')) {
+    return _IconSpec(Icons.directions_car_filled_outlined, const Color(0xFFF9A825), const Color(0x33F9A825));
+  }
+  if (t.contains('الأماكن') || t.contains('سياح') || t.contains('places')) {
+    return _IconSpec(Icons.place_outlined, const Color(0xFF8E24AA), const Color(0x338E24AA));
+  }
+  if (t.contains('فعاليات') || t.contains('events')) {
+    return _IconSpec(Icons.event_outlined, const Color(0xFFE53935), const Color(0x33E53935));
+  }
+  if (t.contains('حجوز') || t.contains('bookings')) {
+    return _IconSpec(Icons.bookmark_border, const Color(0xFF0277BD), const Color(0x330277BD));
+  }
+  if (t.contains('غرف') || t.contains('rooms')) {
+    return _IconSpec(Icons.meeting_room_outlined, const Color(0xFF5E35B1), const Color(0x335E35B1));
+  }
+  // Fallback cycling palette
+  const colors = [
+    Color(0xFF1976D2),
+    Color(0xFF2E7D32),
+    Color(0xFFF9A825),
+    Color(0xFF8E24AA),
+    Color(0xFFE53935),
+    Color(0xFF0277BD),
+  ];
+  final c = colors[index % colors.length];
+  return _IconSpec(Icons.widgets_outlined, c, c.withOpacity(0.2));
 }
 
 class _AdminChip extends StatelessWidget {

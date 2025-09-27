@@ -22,9 +22,14 @@ class ProfileScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('حسابي'),
       ),
-      body: ListView(
-        padding: const EdgeInsets.all(24),
-        children: [
+      body: ListTileTheme(
+        data: ListTileThemeData(
+          textColor: theme.colorScheme.onSurface,
+          iconColor: theme.colorScheme.onSurface,
+        ),
+        child: ListView(
+          padding: const EdgeInsets.all(24),
+          children: [
           Center(
             child: CircleAvatar(
               radius: 48,
@@ -82,6 +87,7 @@ class ProfileScreen extends StatelessWidget {
             label: const Text('تعديل البيانات'),
           ),
         ],
+      ),
       ),
     );
   }

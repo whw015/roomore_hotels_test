@@ -4,8 +4,14 @@
                 "home":  "Home",
                 "orders":  "My Orders",
                 "profile":  "Profile",
-                "favorites":  "Favourites"
+    "favorites":  "Favourites"
             },
+    "drawer": {
+      "profile": "My Account",
+      "change_language": "Change Language",
+      "logout": "Logout",
+      "support": "Help & Support"
+    },
     "select_language":  "Select language",
     "continue":  "Continue",
     "login":  "Login",
@@ -386,6 +392,12 @@
     "welcome":  "Welcome",
     "common.missingHotelId":  "Hotel ID is missing",
     "common.refreshed":  "Refreshed",
+    "errors": {
+      "load_guests_generic": "Could not load guests. Please try again.",
+      "load_guests_500": "Server error while loading guests. Please try later.",
+      "network": "No internet connection. Check your network and try again.",
+      "unknown": "An unexpected error occurred. Please try again."
+    },
     "admin":  {
                   "sections_services":  {
                                             "title":  "Sections \u0026 Services",

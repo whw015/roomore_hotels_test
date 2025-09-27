@@ -20,9 +20,14 @@ class EmployeesAdminScreen extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(title: Text(tr('admin.employees.title'))),
         body: Builder(
-          builder: (innerContext) => RefreshIndicator(
-            onRefresh: () async {
-              await innerContext.read<EmployeesCubit>().load(hotelId: hotelId);
+          builder: (innerContext) => ListTileTheme(
+            data: ListTileThemeData(
+              textColor: Theme.of(innerContext).colorScheme.onSurface,
+              iconColor: Theme.of(innerContext).colorScheme.onSurface,
+            ),
+            child: RefreshIndicator(
+              onRefresh: () async {
+                await innerContext.read<EmployeesCubit>().load(hotelId: hotelId);
               if (!innerContext.mounted) return;
               final err = innerContext.read<EmployeesCubit>().state.error;
               final msg = err ?? tr('common.refreshed');
@@ -108,6 +113,7 @@ class EmployeesAdminScreen extends StatelessWidget {
               },
             ),
           ),
+        ),
         ),
         floatingActionButton: Builder(
           builder: (innerContext) => FloatingActionButton(

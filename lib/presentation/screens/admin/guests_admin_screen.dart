@@ -17,20 +17,25 @@ class GuestsAdminScreen extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(title: Text(tr('admin.guests.title'))),
         body: Builder(
-          builder: (inner) => RefreshIndicator(
-            onRefresh: () async {
-              await inner.read<GuestsCubit>().load(hotelId: hotelId);
-              if (!inner.mounted) return;
-              final err = inner.read<GuestsCubit>().state.error;
-              showSuccessSnack(inner, err ?? tr('common.refreshed'));
-            },
-            child: BlocBuilder<GuestsCubit, GuestsState>(
+          builder: (inner) => ListTileTheme(
+            data: ListTileThemeData(
+              textColor: Theme.of(inner).colorScheme.onSurface,
+              iconColor: Theme.of(inner).colorScheme.onSurface,
+            ),
+            child: RefreshIndicator(
+              onRefresh: () async {
+                await inner.read<GuestsCubit>().load(hotelId: hotelId);
+                if (!inner.mounted) return;
+                final err = inner.read<GuestsCubit>().state.error;
+                showSuccessSnack(inner, err ?? tr('common.refreshed'));
+              },
+              child: BlocBuilder<GuestsCubit, GuestsState>(
               builder: (context, state) {
                 if (state.loading) {
                   return const Center(child: CircularProgressIndicator());
                 }
                 if (state.error != null) {
-                  return Center(child: Text(state.error!));
+                  return Center(child: Text(friendlyErrorMessage(state.error!, context)));
                 }
                 if (state.list.isEmpty) {
                   return Center(child: Text(tr('common.noItems')));
@@ -70,6 +75,7 @@ class GuestsAdminScreen extends StatelessWidget {
               },
             ),
           ),
+        ),
         ),
         floatingActionButton: Builder(
           builder: (inner) => FloatingActionButton(
